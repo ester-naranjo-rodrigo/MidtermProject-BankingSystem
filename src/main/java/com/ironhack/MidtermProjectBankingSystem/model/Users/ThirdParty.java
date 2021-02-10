@@ -7,9 +7,17 @@ import javax.persistence.Entity;
 import javax.validation.constraints.*;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
 @DynamicUpdate
-public class ThirdParty extends User{
+public class ThirdParty{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+    private Long id;
+
+    @NotNull
+    private String name;
+
     @NotNull
     private String hashedKey;
 }

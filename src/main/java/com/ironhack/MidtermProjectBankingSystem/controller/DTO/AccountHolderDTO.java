@@ -1,33 +1,30 @@
-package com.ironhack.MidtermProjectBankingSystem.model.Users;
+package com.ironhack.MidtermProjectBankingSystem.controller.DTO;
 
-import com.ironhack.MidtermProjectBankingSystem.model.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.model.AuxClasses.*;
-import org.hibernate.annotations.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import javax.validation.*;
 import javax.validation.constraints.*;
 import java.time.*;
 import java.util.*;
 
-@Entity
-@PrimaryKeyJoinColumn(name = "id")
-@DynamicUpdate
-public class AccountHolder extends User {
-
+public class AccountHolderDTO {
     @NotNull
     private String name;
 
     @NotNull
     private LocalDate dateOfBirth;
 
+    @NotNull(message = "Username can not be null")
+    private String username;
+
+    @NotNull(message = "Password can not be null")
+    private String password;
+
     @Embedded
-    @Valid
     private Address primaryAddress;
 
     @Embedded
-    @Valid
     @AttributeOverrides({
             @AttributeOverride(name="street", column=@Column(name="mailing_street")),
             @AttributeOverride(name="city", column=@Column(name="mailing_city")),
@@ -36,25 +33,16 @@ public class AccountHolder extends User {
     })
     private Address mailingAddress;
 
-    @OneToMany(mappedBy = "primaryOwner")
-    private List<Account> primaryAccounts = new ArrayList<>();
-
-    @OneToMany(mappedBy = "secondaryOwner")
-    private List<Account> secondaryAccounts = new ArrayList<>();
-
-    public AccountHolder() {
+    public AccountHolderDTO() {
     }
 
-    public AccountHolder(String username, String password, Set<Role> roles, @NotNull String name, @NotNull LocalDate dateOfBirth,
-                         @Valid Address primaryAddress, @Valid Address mailingAddress, List<Account> primaryAccounts,
-                         List<Account> secondaryAccounts) {
-        super(username, password, roles);
+    public AccountHolderDTO(@NotNull String name, @NotNull LocalDate dateOfBirth, @NotNull(message = "Username can not be null") String username, @NotNull(message = "Password can not be null") String password, Address primaryAddress, Address mailingAddress) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
+        this.username = username;
+        this.password = password;
         this.primaryAddress = primaryAddress;
         this.mailingAddress = mailingAddress;
-        this.primaryAccounts = primaryAccounts;
-        this.secondaryAccounts = secondaryAccounts;
     }
 
     public String getName() {
@@ -89,19 +77,19 @@ public class AccountHolder extends User {
         this.mailingAddress = mailingAddress;
     }
 
-    public List<Account> getPrimaryAccounts() {
-        return primaryAccounts;
+    public String getUsername() {
+        return username;
     }
 
-    public void setPrimaryAccounts(List<Account> primaryAccounts) {
-        this.primaryAccounts = primaryAccounts;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public List<Account> getSecondaryAccounts() {
-        return secondaryAccounts;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSecondaryAccounts(List<Account> secondaryAccounts) {
-        this.secondaryAccounts = secondaryAccounts;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
