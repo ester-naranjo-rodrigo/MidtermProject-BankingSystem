@@ -32,16 +32,18 @@ public class Savings extends Account{
             @AttributeOverride(name = "currency", column = @Column(name = "currency_minimum_balance"))
     })
     private Money minimumBalance;
+    private LocalDate dateOfLastAccess;
 
     public Savings() {
     }
 
-    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, LocalDate dateOfCreation, List<Transaction> receivedTransactions, List<Transaction> sentTransactions, BigDecimal interestRate, String secretKey, Status status, @Valid Money minimumBalance) {
+    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, LocalDate dateOfCreation, List<Transaction> receivedTransactions, List<Transaction> sentTransactions, BigDecimal interestRate, String secretKey, Status status, @Valid Money minimumBalance, LocalDate dateOfLastAccess) {
         super(balance, primaryOwner, secondaryOwner, dateOfCreation, receivedTransactions, sentTransactions);
         this.interestRate = interestRate;
         this.secretKey = secretKey;
         this.status = status;
         this.minimumBalance = minimumBalance;
+        this.dateOfLastAccess = dateOfLastAccess;
     }
 
     public BigDecimal getInterestRate() {
@@ -74,5 +76,13 @@ public class Savings extends Account{
 
     public void setMinimumBalance(Money minimumBalance) {
         this.minimumBalance = minimumBalance;
+    }
+
+    public LocalDate getDateOfLastAccess() {
+        return dateOfLastAccess;
+    }
+
+    public void setDateOfLastAccess(LocalDate dateOfLastAccess) {
+        this.dateOfLastAccess = dateOfLastAccess;
     }
 }

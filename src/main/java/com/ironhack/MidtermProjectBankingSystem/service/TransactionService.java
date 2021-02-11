@@ -6,6 +6,7 @@ import com.ironhack.MidtermProjectBankingSystem.model.AuxClasses.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Transaction.*;
 import com.ironhack.MidtermProjectBankingSystem.repository.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.repository.Transaction.*;
+import com.ironhack.MidtermProjectBankingSystem.utils.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.*;
@@ -21,6 +22,12 @@ public class TransactionService {
 
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    private SavingsRepository savingsRepository;
+
+    @Autowired
+    private CreditCardRepository creditCardRepository;
 
     public Transaction create (TransactionDTO transactionDTO, UserDetails userDetails) {
 
@@ -48,6 +55,7 @@ public class TransactionService {
 
                 if (originAccount instanceof Savings) {
                     Savings saving = (Savings) originAccount;
+                    InterestsAndFees.addInterestSavings(originAccount.getId(), savingsRepository);
 
                     if (originAccount.getBalance().decreaseAmount(amount).compareTo(saving.getMinimumBalance().getAmount())<0) {
                         originAccount.setBalance(new Money(originAccount.getBalance().decreaseAmount(saving.getPenaltyFee())));
@@ -58,7 +66,11 @@ public class TransactionService {
                     if (originAccount.getBalance().decreaseAmount(amount).compareTo(checking.getMinimumBalance().getAmount())<0){
                         originAccount.setBalance(new Money(originAccount.getBalance().decreaseAmount(checking.getPenaltyFee())));
                     }
-                }else{
+                }else if (originAccount instanceof CreditCard) {
+                    InterestsAndFees.addInterestCreditCard(originAccount.getId(), creditCardRepository);
+                    originAccount.setBalance(new Money(originAccount.getBalance().decreaseAmount(amount)));
+                }
+                else{
 
                     originAccount.setBalance(new Money(originAccount.getBalance().decreaseAmount(amount)));
                 }

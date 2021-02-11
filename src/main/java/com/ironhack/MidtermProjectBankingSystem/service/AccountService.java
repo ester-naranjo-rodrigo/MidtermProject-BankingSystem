@@ -45,6 +45,9 @@ public class AccountService {
                 if (account instanceof CreditCard){
                     InterestsAndFees.addInterestCreditCard(account.getId(), creditCardRepository);
                 }
+                else if (account instanceof Savings){
+                    InterestsAndFees.addInterestSavings(account.getId(), savingsRepository);
+                }
             }
         }
         return accounts;
@@ -63,6 +66,7 @@ public class AccountService {
         savings.setStatus(Status.ACTIVE);
         savings.setBalance(new Money(newAccount.getBalance()));
         savings.setDateOfCreation(LocalDate.now());
+        savings.setDateOfLastAccess(LocalDate.now());
         savings.setPrimaryOwner(accountHolderRepository.findById(newAccount.getIdPrimaryOwner()).get());
         if(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).isEmpty() ){
         }else{
@@ -78,6 +82,7 @@ public class AccountService {
         creditCard.setInterestRate(newAccount.getInterestRate());
         creditCard.setBalance(new Money(newAccount.getBalance()));
         creditCard.setDateOfCreation(LocalDate.now());
+        creditCard.setDateOfLastAccess(LocalDate.now());
         creditCard.setPrimaryOwner(accountHolderRepository.findById(newAccount.getIdPrimaryOwner()).get());
         if(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).isEmpty() ){
         }else{
@@ -154,6 +159,12 @@ public class AccountService {
         if(account.isPresent()){
             account.get().setBalance(balance);
             accountRepository.save(account.get());
+            if (account.get() instanceof CreditCard){
+                InterestsAndFees.addInterestCreditCard(account.get().getId(), creditCardRepository);
+            }
+            else if (account.get() instanceof Savings){
+                InterestsAndFees.addInterestSavings(account.get().getId(), savingsRepository);
+            }
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
