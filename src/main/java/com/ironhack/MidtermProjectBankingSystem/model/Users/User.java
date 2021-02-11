@@ -15,7 +15,6 @@ public class User {
     @Column(name="id")
     private Long id;
 
-    @Column(unique = true)
     private String username;
 
     private String password;
@@ -28,6 +27,13 @@ public class User {
     private String name;
 
     public User() {
+    }
+
+    public User(String username, String password, @NotNull String name) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+        this.name = name;
     }
 
     public User(String username, String password, Set<Role> roles, @NotNull String name) {

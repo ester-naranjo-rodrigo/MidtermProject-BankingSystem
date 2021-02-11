@@ -7,9 +7,7 @@ import javax.validation.constraints.*;
 import java.util.*;
 
 public class TransactionDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
     @NotNull
     private Long origenAccountId;
     @NotNull
@@ -37,9 +35,7 @@ public class TransactionDTO {
         this.transactionDate = new Date();
         this.nameOwnerDestinationAccount = nameOwnerDestinationAccount;
     }
-    public Long getId() {
-        return id;
-    }
+
     public Long getOrigenAccountId() {
         return origenAccountId;
     }

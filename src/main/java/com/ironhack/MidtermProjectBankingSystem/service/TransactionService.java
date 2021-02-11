@@ -126,6 +126,12 @@ public class TransactionService {
             throw new IllegalArgumentException("The given Account id doest not match any account");
         }
     }
+
+
+    public void thirdPartyOperation (OperationThirdPartyDTO operationThirdPartyDTO) {
+
+
+    }
 }
 
 
