@@ -32,8 +32,8 @@ public class FraudChecker {
 
     public boolean numberOfTransactionsFraudDetection(TransactionDTO transactionDTO) {
         Account originAccount = accountRepository.findById(transactionDTO.getOrigenAccountId()).get();
-        Integer last24hTransactions = transactionRepository.findTransactionsLast24h(originAccount.getId());
-        Integer maxHistoric24hTransactions = transactionRepository.findMaxTransactions24hPeriod(originAccount.getId());
+        Long last24hTransactions = transactionRepository.findTransactionsLast24h(originAccount.getId());
+        Long maxHistoric24hTransactions = transactionRepository.findMaxTransactions24hPeriod(originAccount.getId());
         if (last24hTransactions > 1.5 * maxHistoric24hTransactions) {
             return true;
         } else {
