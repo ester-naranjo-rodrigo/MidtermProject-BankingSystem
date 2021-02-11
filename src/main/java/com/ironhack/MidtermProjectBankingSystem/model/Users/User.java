@@ -24,13 +24,17 @@ public class User {
     @JsonIgnore
     protected Set<Role> roles = new HashSet<>();
 
+    @NotNull
+    private String name;
+
     public User() {
     }
 
-    public User(String username, String password, Set<Role> roles) {
+    public User(String username, String password, Set<Role> roles, @NotNull String name) {
         this.username = username;
         this.password = password;
         this.roles = roles;
+        this.name = name;
     }
 
     public Long getId() {
@@ -63,5 +67,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

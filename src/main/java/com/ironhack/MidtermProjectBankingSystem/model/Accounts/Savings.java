@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.validation.*;
 import javax.validation.constraints.*;
 import java.math.*;
+import java.time.*;
 import java.util.*;
 
 @Entity
@@ -35,7 +36,7 @@ public class Savings extends Account{
     public Savings() {
     }
 
-    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Date dateOfCreation, List<Transaction> receivedTransactions, List<Transaction> sentTransactions, BigDecimal interestRate, String secretKey, Status status, @Valid Money minimumBalance) {
+    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, LocalDate dateOfCreation, List<Transaction> receivedTransactions, List<Transaction> sentTransactions, BigDecimal interestRate, String secretKey, Status status, @Valid Money minimumBalance) {
         super(balance, primaryOwner, secondaryOwner, dateOfCreation, receivedTransactions, sentTransactions);
         this.interestRate = interestRate;
         this.secretKey = secretKey;

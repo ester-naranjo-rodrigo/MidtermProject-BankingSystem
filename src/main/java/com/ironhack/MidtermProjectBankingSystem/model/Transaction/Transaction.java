@@ -28,6 +28,7 @@ public class Transaction {
     })
     private Money amount;
     private Date transactionDate;
+
     public Transaction(@NotNull Account origenAccount, @NotNull Account destinationAccount,
                        @NotNull String description, @NotNull Money amount, Date transactionDate) {
         this.origenAccount = origenAccount;

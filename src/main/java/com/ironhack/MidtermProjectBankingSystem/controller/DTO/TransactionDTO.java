@@ -25,19 +25,17 @@ public class TransactionDTO {
     private Money amount;
     private Date transactionDate;
     private String nameOwnerDestinationAccount;
-    private String userNameOriginAccount;
-    private String passwordOriginAccount;
+
     public TransactionDTO(){
     }
-    public TransactionDTO(@NotNull Long origenAccountId, @NotNull Long destinationAccountId, @NotNull String description, @NotNull Money amount, String nameOwnerDestinationAccount, String userNameOriginAccount, String passwordOriginAccount) {
+
+    public TransactionDTO(@NotNull Long origenAccountId, @NotNull Long destinationAccountId, @NotNull String description, @NotNull Money amount, String nameOwnerDestinationAccount) {
         this.origenAccountId = origenAccountId;
         this.destinationAccountId = destinationAccountId;
         this.description = description;
         this.amount = amount;
         this.transactionDate = new Date();
         this.nameOwnerDestinationAccount = nameOwnerDestinationAccount;
-        this.userNameOriginAccount = userNameOriginAccount;
-        this.passwordOriginAccount = passwordOriginAccount;
     }
     public Long getId() {
         return id;
@@ -77,17 +75,5 @@ public class TransactionDTO {
     }
     public void setNameOwnerDestinationAccount(String nameOwnerDestinationAccount) {
         this.nameOwnerDestinationAccount = nameOwnerDestinationAccount;
-    }
-    public String getUserNameOriginAccount() {
-        return userNameOriginAccount;
-    }
-    public void setUserNameOriginAccount(String userNameOriginAccount) {
-        this.userNameOriginAccount = userNameOriginAccount;
-    }
-    public String getPasswordOriginAccount() {
-        return passwordOriginAccount;
-    }
-    public void setPasswordOriginAccount(String passwordOriginAccount) {
-        this.passwordOriginAccount = passwordOriginAccount;
     }
 }

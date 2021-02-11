@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.validation.*;
 import javax.validation.constraints.*;
+import java.time.*;
 import java.util.*;
 
 @Entity
@@ -25,7 +26,7 @@ public class StudentChecking extends Account{
     public StudentChecking() {
     }
 
-    public StudentChecking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Date dateOfCreation, List<Transaction> receivedTransactions, List<Transaction> sentTransactions, String secretKey, Status status) {
+    public StudentChecking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, LocalDate dateOfCreation, List<Transaction> receivedTransactions, List<Transaction> sentTransactions, String secretKey, Status status) {
         super(balance, primaryOwner, secondaryOwner, dateOfCreation, receivedTransactions, sentTransactions);
         this.secretKey = secretKey;
         this.status = status;

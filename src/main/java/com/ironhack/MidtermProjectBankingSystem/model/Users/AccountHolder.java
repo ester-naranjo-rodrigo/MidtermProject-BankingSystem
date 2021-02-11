@@ -1,5 +1,6 @@
 package com.ironhack.MidtermProjectBankingSystem.model.Users;
 
+import com.fasterxml.jackson.annotation.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.model.AuxClasses.*;
 import org.hibernate.annotations.*;
@@ -15,9 +16,6 @@ import java.util.*;
 @PrimaryKeyJoinColumn(name = "id")
 @DynamicUpdate
 public class AccountHolder extends User {
-
-    @NotNull
-    private String name;
 
     @NotNull
     private LocalDate dateOfBirth;
@@ -37,32 +35,23 @@ public class AccountHolder extends User {
     private Address mailingAddress;
 
     @OneToMany(mappedBy = "primaryOwner")
+    @JsonIgnore
     private List<Account> primaryAccounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "secondaryOwner")
+    @JsonIgnore
     private List<Account> secondaryAccounts = new ArrayList<>();
 
     public AccountHolder() {
     }
 
-    public AccountHolder(String username, String password, Set<Role> roles, @NotNull String name, @NotNull LocalDate dateOfBirth,
-                         @Valid Address primaryAddress, @Valid Address mailingAddress, List<Account> primaryAccounts,
-                         List<Account> secondaryAccounts) {
-        super(username, password, roles);
-        this.name = name;
+    public AccountHolder(String username, String password, Set<Role> roles, @NotNull String name, @NotNull LocalDate dateOfBirth, @Valid Address primaryAddress, @Valid Address mailingAddress, List<Account> primaryAccounts, List<Account> secondaryAccounts) {
+        super(username, password, roles, name);
         this.dateOfBirth = dateOfBirth;
         this.primaryAddress = primaryAddress;
         this.mailingAddress = mailingAddress;
         this.primaryAccounts = primaryAccounts;
         this.secondaryAccounts = secondaryAccounts;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public LocalDate getDateOfBirth() {

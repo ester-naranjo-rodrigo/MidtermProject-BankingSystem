@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.validation.*;
 import javax.validation.constraints.*;
 import java.math.*;
+import java.time.*;
 import java.util.*;
 
 @Entity
@@ -25,14 +26,16 @@ public class CreditCard extends Account{
     })
     private Money creditLimit;
     private BigDecimal interestRate;
+    private LocalDate dateOfLastAccess;
 
     public CreditCard() {
     }
 
-    public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Date dateOfCreation, List<Transaction> receivedTransactions, List<Transaction> sentTransactions, @Valid Money creditLimit, BigDecimal interestRate) {
+    public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, LocalDate dateOfCreation, List<Transaction> receivedTransactions, List<Transaction> sentTransactions, @Valid Money creditLimit, BigDecimal interestRate, LocalDate dateOfLastAccess) {
         super(balance, primaryOwner, secondaryOwner, dateOfCreation, receivedTransactions, sentTransactions);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
+        this.dateOfLastAccess = dateOfLastAccess;
     }
 
     public Money getCreditLimit() {
@@ -49,5 +52,13 @@ public class CreditCard extends Account{
 
     public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
+    }
+
+    public LocalDate getDateOfLastAccess() {
+        return dateOfLastAccess;
+    }
+
+    public void setDateOfLastAccess(LocalDate dateOfLastAccess) {
+        this.dateOfLastAccess = dateOfLastAccess;
     }
 }

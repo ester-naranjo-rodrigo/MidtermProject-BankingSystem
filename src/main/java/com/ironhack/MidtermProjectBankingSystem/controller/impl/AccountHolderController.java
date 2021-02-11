@@ -34,7 +34,7 @@ public class AccountHolderController implements IAccountHolderController {
 
     @PostMapping("/transaction")
     @ResponseStatus(HttpStatus.CREATED)
-    public Transaction create(@RequestBody @Valid TransactionDTO transactionDTO) {
-        return transactionService.create(transactionDTO);
+    public Transaction create(@RequestBody @Valid TransactionDTO transactionDTO, @AuthenticationPrincipal UserDetails userDetails) {
+        return transactionService.create(transactionDTO, userDetails);
     }
 }

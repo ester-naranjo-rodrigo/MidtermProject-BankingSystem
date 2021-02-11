@@ -8,6 +8,7 @@ import com.ironhack.MidtermProjectBankingSystem.model.Users.*;
 import javax.persistence.*;
 import javax.validation.*;
 import java.math.*;
+import java.time.*;
 import java.util.*;
 
 @Entity
@@ -43,17 +44,19 @@ public class Account {
     })
     private final Money penaltyFee = new Money(new BigDecimal("40"));
 
-    private Date dateOfCreation;
+    private LocalDate dateOfCreation;
 
     @OneToMany(mappedBy = "destinationAccount")
+    @JsonIgnore
     private List<Transaction> receivedTransactions;
     @OneToMany(mappedBy = "origenAccount")
+    @JsonIgnore
     private List<Transaction> sentTransactions;
 
     public Account() {
     }
 
-    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Date dateOfCreation, List<Transaction> receivedTransactions, List<Transaction> sentTransactions) {
+    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, LocalDate dateOfCreation, List<Transaction> receivedTransactions, List<Transaction> sentTransactions) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
@@ -90,9 +93,13 @@ public class Account {
         return penaltyFee;
     }
 
-    public Date getDateOfCreation() { return dateOfCreation; }
+    public LocalDate getDateOfCreation() {
+        return dateOfCreation;
+    }
 
-    public void setDateOfCreation(Date dateOfCreation) { this.dateOfCreation = dateOfCreation; }
+    public void setDateOfCreation(LocalDate dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
+    }
 
     public Long getId() {
         return id;

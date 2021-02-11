@@ -7,6 +7,7 @@ import com.ironhack.MidtermProjectBankingSystem.model.AuxClasses.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Users.*;
 import com.ironhack.MidtermProjectBankingSystem.repository.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.repository.Users.*;
+import com.ironhack.MidtermProjectBankingSystem.utils.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
@@ -39,6 +40,13 @@ public class AccountService {
     public List<Account> getAllAccountsByUsername(String username) {
         AccountHolder user = accountHolderRepository.findByUsername(username);
         List<Account> accounts = accountRepository.findByPrimaryOwner(user);
+        if (accounts.size()>0) {
+            for (Account account : accounts) {
+                if (account instanceof CreditCard){
+                    InterestsAndFees.addInterestCreditCard(account.getId(), creditCardRepository);
+                }
+            }
+        }
         return accounts;
     }
 
@@ -54,7 +62,7 @@ public class AccountService {
         savings.setInterestRate(newAccount.getInterestRate());
         savings.setStatus(Status.ACTIVE);
         savings.setBalance(new Money(newAccount.getBalance()));
-        savings.setDateOfCreation(new Date());
+        savings.setDateOfCreation(LocalDate.now());
         savings.setPrimaryOwner(accountHolderRepository.findById(newAccount.getIdPrimaryOwner()).get());
         if(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).isEmpty() ){
         }else{
@@ -69,6 +77,7 @@ public class AccountService {
         creditCard.setCreditLimit(new Money(newAccount.getCreditLimit()));
         creditCard.setInterestRate(newAccount.getInterestRate());
         creditCard.setBalance(new Money(newAccount.getBalance()));
+        creditCard.setDateOfCreation(LocalDate.now());
         creditCard.setPrimaryOwner(accountHolderRepository.findById(newAccount.getIdPrimaryOwner()).get());
         if(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).isEmpty() ){
         }else{
@@ -89,7 +98,7 @@ public class AccountService {
             studentChecking.setStatus(Status.ACTIVE);
             studentChecking.setSecretKey(newAccount.getSecretKey());
             studentChecking.setBalance(new Money(newAccount.getBalance()));
-            studentChecking.setDateOfCreation(new Date());
+            studentChecking.setDateOfCreation(LocalDate.now());
             studentChecking.setPrimaryOwner(accountHolderRepository.findById(newAccount.getIdPrimaryOwner()).get());
             if(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).isEmpty() ){
             }else{
@@ -103,7 +112,7 @@ public class AccountService {
             checking.setStatus(Status.ACTIVE);
             checking.setSecretKey(newAccount.getSecretKey());
             checking.setBalance(new Money(newAccount.getBalance()));
-            checking.setDateOfCreation(new Date());
+            checking.setDateOfCreation(LocalDate.now());
             checking.setPrimaryOwner(accountHolderRepository.findById(newAccount.getIdPrimaryOwner()).get());
             if(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).isEmpty() ){
             }else{
