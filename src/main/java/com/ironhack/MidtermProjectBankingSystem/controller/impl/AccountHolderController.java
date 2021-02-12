@@ -8,6 +8,7 @@ import com.ironhack.MidtermProjectBankingSystem.model.Users.*;
 import com.ironhack.MidtermProjectBankingSystem.service.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
+import org.springframework.security.access.annotation.*;
 import org.springframework.security.core.annotation.*;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.web.bind.annotation.*;
