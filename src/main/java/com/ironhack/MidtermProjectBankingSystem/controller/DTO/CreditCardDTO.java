@@ -16,7 +16,7 @@ public class CreditCardDTO {
     @NotNull(message = "Primary Owner Id is required")
     private Long idPrimaryOwner;
 
-    private Optional<Long> idSecondaryOwner;
+    private Long idSecondaryOwner;
 
     @DecimalMax(value = "100000")
     @DecimalMin(value = "100")
@@ -30,7 +30,7 @@ public class CreditCardDTO {
     public CreditCardDTO() {
     }
 
-    public CreditCardDTO(@NotNull(message = "Balance is required") BigDecimal balance, @NotNull(message = "Primary Owner Id is required") Long idPrimaryOwner, Optional<Long> idSecondaryOwner, @DecimalMax(value = "100000") @DecimalMin(value = "100", inclusive = false) BigDecimal creditLimit, @DecimalMax(value = "0.2", inclusive = false) @DecimalMin(value = "0.1") BigDecimal interestRate) {
+    public CreditCardDTO(@NotNull(message = "Balance is required") BigDecimal balance, @NotNull(message = "Primary Owner Id is required") Long idPrimaryOwner, Long idSecondaryOwner, @DecimalMax(value = "100000") @DecimalMin(value = "100", inclusive = false) BigDecimal creditLimit, @DecimalMax(value = "0.2", inclusive = false) @DecimalMin(value = "0.1") BigDecimal interestRate) {
         this.balance = balance;
         this.idPrimaryOwner = idPrimaryOwner;
         this.idSecondaryOwner = idSecondaryOwner;
@@ -54,11 +54,11 @@ public class CreditCardDTO {
         this.idPrimaryOwner = idPrimaryOwner;
     }
 
-    public Optional<Long> getIdSecondaryOwner() {
+    public Long getIdSecondaryOwner() {
         return idSecondaryOwner;
     }
 
-    public void setIdSecondaryOwner(Optional<Long> idSecondaryOwner) {
+    public void setIdSecondaryOwner(Long idSecondaryOwner) {
         this.idSecondaryOwner = idSecondaryOwner;
     }
 

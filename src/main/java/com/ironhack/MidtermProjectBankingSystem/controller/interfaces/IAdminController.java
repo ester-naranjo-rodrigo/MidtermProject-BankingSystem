@@ -15,6 +15,7 @@ public interface IAdminController {
     public CreditCard createAccountCreditCard(CreditCardDTO creditCardDTO);
     public Object createAccountChecking(CheckingDTO checkingDTO);
     public AccountHolder createAccountHolder(AccountHolderDTO accountHolderDTO);
+    public ThirdParty createThirdParty(ThirdPartyDTO thirdPartyDTO);
     public List<AccountHolder> findAccountHolders();
     public void updateStatus(long id, StatusDTO statusDTO);
     public void updateBalance (Long id, BalanceDTO balance);

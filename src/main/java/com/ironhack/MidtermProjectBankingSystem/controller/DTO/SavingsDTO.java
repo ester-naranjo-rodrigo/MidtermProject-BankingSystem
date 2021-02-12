@@ -16,7 +16,7 @@ public class SavingsDTO {
     @NotNull(message = "Primary Owner Id is required")
     private Long idPrimaryOwner;
 
-    private Optional<Long> idSecondaryOwner;
+    private Long idSecondaryOwner;
 
     @NotNull(message = "Secret key is required")
     private String secretKey;
@@ -32,7 +32,7 @@ public class SavingsDTO {
     public SavingsDTO() {
     }
 
-    public SavingsDTO(@NotNull(message = "Balance is required") BigDecimal balance, @NotNull(message = "Primary Owner Id is required") Long idPrimaryOwner, Optional<Long> idSecondaryOwner, @NotNull(message = "Secret key is required") String secretKey, @DecimalMax(value = "1000", message = "Minimum balance must be below 1000") @DecimalMin(value = "100", message = "Minimum balance must be above 100") BigDecimal minimumBalance, @DecimalMax(value = "0.5", message = "Max Interest rate must be 0.5") @Positive(message = "Interest rate must be positive") BigDecimal interestRate) {
+    public SavingsDTO(@NotNull(message = "Balance is required") BigDecimal balance, @NotNull(message = "Primary Owner Id is required") Long idPrimaryOwner, Long idSecondaryOwner, @NotNull(message = "Secret key is required") String secretKey, @DecimalMax(value = "1000", message = "Minimum balance must be below 1000") @DecimalMin(value = "100", message = "Minimum balance must be above 100") BigDecimal minimumBalance, @DecimalMax(value = "0.5", message = "Max Interest rate must be 0.5") @Positive(message = "Interest rate must be positive") BigDecimal interestRate) {
         this.balance = balance;
         this.idPrimaryOwner = idPrimaryOwner;
         this.idSecondaryOwner = idSecondaryOwner;
@@ -49,11 +49,11 @@ public class SavingsDTO {
         this.idPrimaryOwner = idPrimaryOwner;
     }
 
-    public Optional<Long> getIdSecondaryOwner() {
+    public Long getIdSecondaryOwner() {
         return idSecondaryOwner;
     }
 
-    public void setIdSecondaryOwner(Optional<Long> idSecondaryOwner) {
+    public void setIdSecondaryOwner(Long idSecondaryOwner) {
         this.idSecondaryOwner = idSecondaryOwner;
     }
 

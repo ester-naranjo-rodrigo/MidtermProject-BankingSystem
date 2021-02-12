@@ -37,6 +37,9 @@ public class AccountService {
     @Autowired
     CheckingRepository checkingRepository;
 
+    @Autowired
+    ThirdPartyRepository thirdPartyRepository;
+
     public List<Account> getAllAccountsByUsername(String username) {
         AccountHolder user = accountHolderRepository.findByUsername(username);
         List<Account> accounts = accountRepository.findByPrimaryOwner(user);
@@ -64,13 +67,18 @@ public class AccountService {
         savings.setMinimumBalance(new Money(newAccount.getMinimumBalance()));
         savings.setInterestRate(newAccount.getInterestRate());
         savings.setStatus(Status.ACTIVE);
+
+        if(newAccount.getBalance().doubleValue() < newAccount.getMinimumBalance().doubleValue()){
+            throw new IllegalArgumentException("Balance amount can not be less than minimum balance amount");
+        }
+
         savings.setBalance(new Money(newAccount.getBalance()));
         savings.setDateOfCreation(LocalDate.now());
         savings.setDateOfLastAccess(LocalDate.now());
         savings.setPrimaryOwner(accountHolderRepository.findById(newAccount.getIdPrimaryOwner()).get());
-        if(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).isEmpty() ){
+        if(newAccount.getIdSecondaryOwner()==null){
         }else{
-            savings.setSecondaryOwner(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).get());
+            savings.setSecondaryOwner(accountHolderRepository.findById(newAccount.getIdSecondaryOwner()).get());
         }
         accountRepository.save(savings);
         return savingsRepository.save(savings);
@@ -84,9 +92,9 @@ public class AccountService {
         creditCard.setDateOfCreation(LocalDate.now());
         creditCard.setDateOfLastAccess(LocalDate.now());
         creditCard.setPrimaryOwner(accountHolderRepository.findById(newAccount.getIdPrimaryOwner()).get());
-        if(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).isEmpty() ){
+        if(newAccount.getIdSecondaryOwner()==null){
         }else{
-            creditCard.setSecondaryOwner(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).get());
+            creditCard.setSecondaryOwner(accountHolderRepository.findById(newAccount.getIdSecondaryOwner()).get());
         }
         accountRepository.save(creditCard);
         return creditCardRepository.save(creditCard);
@@ -105,9 +113,9 @@ public class AccountService {
             studentChecking.setBalance(new Money(newAccount.getBalance()));
             studentChecking.setDateOfCreation(LocalDate.now());
             studentChecking.setPrimaryOwner(accountHolderRepository.findById(newAccount.getIdPrimaryOwner()).get());
-            if(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).isEmpty() ){
+            if(newAccount.getIdSecondaryOwner()==null){
             }else{
-                studentChecking.setSecondaryOwner(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).get());
+                studentChecking.setSecondaryOwner(accountHolderRepository.findById(newAccount.getIdSecondaryOwner()).get());
             }
             accountRepository.save(studentChecking);
             return studentCheckingRepository.save(studentChecking);
@@ -116,12 +124,15 @@ public class AccountService {
             Checking checking = new Checking();
             checking.setStatus(Status.ACTIVE);
             checking.setSecretKey(newAccount.getSecretKey());
+            if(newAccount.getBalance().doubleValue() < checking.getMinimumBalance().getAmount().doubleValue()){
+                throw new IllegalArgumentException("Balance amount can not be less than minimum balance amount");
+            }
             checking.setBalance(new Money(newAccount.getBalance()));
             checking.setDateOfCreation(LocalDate.now());
             checking.setPrimaryOwner(accountHolderRepository.findById(newAccount.getIdPrimaryOwner()).get());
-            if(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).isEmpty() ){
+            if(newAccount.getIdSecondaryOwner()==null){
             }else{
-                checking.setSecondaryOwner(accountHolderRepository.findById(newAccount.getIdSecondaryOwner().get()).get());
+                checking.setSecondaryOwner(accountHolderRepository.findById(newAccount.getIdSecondaryOwner()).get());
             }
             accountRepository.save(checking);
             return checkingRepository.save(checking);
@@ -168,6 +179,50 @@ public class AccountService {
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
+        }
+    }
+
+
+    public void update (Integer hashedKey, AccountDTO accountDTO) {
+        Optional<Account> account = accountRepository.findById(accountDTO.getId());
+        Optional <ThirdParty> thirdParty = thirdPartyRepository.findByHashedKey(hashedKey);
+        if (account.isPresent() && thirdParty.isPresent()) {
+            if (account.get() instanceof Savings) {
+                if (((Savings) account.get()).getSecretKey().equals(accountDTO.getSecretKey())){
+                    if (accountDTO.getTransactionType().equals(TransactionType.SEND)){
+                        account.get().setBalance(new Money(account.get().getBalance().increaseAmount(accountDTO.getAmount())));
+                    }else {
+                        account.get().setBalance(new Money(account.get().getBalance().decreaseAmount(accountDTO.getAmount())));
+                    }
+                }else {
+                    throw new IllegalArgumentException("The secretKey is incorrect");
+                }
+            }else if (account.get() instanceof Checking) {
+                if (((Checking) account.get()).getSecretKey().equals(accountDTO.getSecretKey())){
+                    if (accountDTO.getTransactionType().equals(TransactionType.SEND)){
+                        account.get().setBalance(new Money(account.get().getBalance().increaseAmount(accountDTO.getAmount())));
+                    }else {
+                        account.get().setBalance(new Money(account.get().getBalance().decreaseAmount(accountDTO.getAmount())));
+                    }
+                }else {
+                    throw new IllegalArgumentException("The secretKey is incorrect");
+                }
+            }else if (account.get() instanceof StudentChecking) {
+                if (((StudentChecking) account.get()).getSecretKey().equals(accountDTO.getSecretKey())) {
+                    if (accountDTO.getTransactionType().equals(TransactionType.SEND)) {
+                        account.get().setBalance(new Money(account.get().getBalance().increaseAmount(accountDTO.getAmount())));
+                    } else {
+                        account.get().setBalance(new Money(account.get().getBalance().decreaseAmount(accountDTO.getAmount())));
+                    }
+                } else {
+                    throw new IllegalArgumentException("The secretKey is incorrect");
+                }
+            }else{
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The type account is not correct");
+            }
+            accountRepository.save(account.get());
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account or Third Party not found");
         }
     }
 

@@ -30,7 +30,7 @@ public class AdminController implements IAdminController {
     @Autowired
     private ThirdPartyService thirdPartyService;
 
-    @GetMapping("/accountHolders")
+    @GetMapping("/check/accountHolders")
     public List<AccountHolder> findAccountHolders() {
         return accountHolderRepository.findAll();
     }
@@ -61,17 +61,17 @@ public class AdminController implements IAdminController {
 
     @PostMapping("/create/thirdParty")
     @ResponseStatus(HttpStatus.CREATED)
-    public ThirdParty createAccountHolder(@RequestBody @Valid ThirdPartyDTO thirdPartyDTO) {
+    public ThirdParty createThirdParty(@RequestBody @Valid ThirdPartyDTO thirdPartyDTO) {
         return thirdPartyService.createThirdParty(thirdPartyDTO);
     }
 
-    @PatchMapping("/account/change-status/{id}")
+    @PatchMapping("/update/changeStatus/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateStatus(@PathVariable long id, @RequestBody @Valid StatusDTO statusDTO) {
         accountService.updateStatus(id, statusDTO.getStatus());
     }
 
-    @PatchMapping("/updateBalance/{id}")
+    @PatchMapping("/update/balance/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateBalance (@PathVariable Long id, @RequestBody BalanceDTO balance) {
         accountService.updateBalance(id, balance.getBalance());

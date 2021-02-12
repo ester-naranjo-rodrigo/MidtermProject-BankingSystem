@@ -21,6 +21,9 @@ public class AccountHolderService {
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     public AccountHolder createAccountHolder(AccountHolderDTO accountHolderDTO) {
         AccountHolder accountHolder = new AccountHolder();
         accountHolder.setName(accountHolderDTO.getName());
@@ -29,6 +32,8 @@ public class AccountHolderService {
         accountHolder.setMailingAddress(accountHolderDTO.getMailingAddress());
         accountHolder.setUsername(accountHolderDTO.getUsername());
         accountHolder.setPassword(accountHolderDTO.getPassword());
+
+        userRepository.save(accountHolder);
 
         Role role = new Role("ACCOUNTHOLDER", accountHolder);
         roleRepository.save(role);

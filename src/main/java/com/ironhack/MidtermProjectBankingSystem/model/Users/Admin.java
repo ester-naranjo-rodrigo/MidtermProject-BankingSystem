@@ -15,4 +15,8 @@ public class Admin extends User{
     public Admin(String username, String password, Set<Role> roles, @NotNull String name) {
         super(username, password, roles, name);
     }
+
+    public Admin() {
+
+    }
 }

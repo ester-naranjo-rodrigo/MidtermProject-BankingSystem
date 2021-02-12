@@ -1,36 +1,35 @@
 package com.ironhack.MidtermProjectBankingSystem.controller.DTO;
 
 import javax.validation.constraints.*;
+import java.util.*;
 
 public class ThirdPartyDTO {
 
-    @NotNull
-    private String hashKey;
-
-    @NotNull
+    @NotNull(message = "Name can not be null")
     private String name;
+
+    private final Integer hashedKey = hashCode();
 
     public ThirdPartyDTO() {
     }
 
-    public ThirdPartyDTO(@NotNull String hashKey, @NotNull String name) {
-        this.hashKey = hashKey;
-        this.name = name;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ThirdPartyDTO that = (ThirdPartyDTO) o;
+        return getName().equals(that.getName()) && getHashedKey().equals(that.getHashedKey());
     }
 
-    public String getHashKey() {
-        return hashKey;
+    public int hashCode() {
+        return Objects.hash(getName());
     }
-
-    public void setHashKey(String hashKey) {
-        this.hashKey = hashKey;
-    }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
+    }
+    public Integer getHashedKey() {
+        return hashedKey;
     }
 }

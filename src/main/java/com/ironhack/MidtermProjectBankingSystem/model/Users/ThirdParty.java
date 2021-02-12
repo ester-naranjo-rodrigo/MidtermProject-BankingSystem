@@ -19,12 +19,12 @@ public class ThirdParty{
     private String name;
 
     @NotNull
-    private String hashedKey;
+    private Integer hashedKey;
 
     public ThirdParty() {
     }
 
-    public ThirdParty(@NotNull String name, @NotNull String hashedKey) {
+    public ThirdParty(@NotNull String name, @NotNull Integer hashedKey) {
         this.name = name;
         this.hashedKey = hashedKey;
     }
@@ -45,11 +45,11 @@ public class ThirdParty{
         this.name = name;
     }
 
-    public String getHashedKey() {
+    public Integer getHashedKey() {
         return hashedKey;
     }
 
-    public void setHashedKey(String hashedKey) {
+    public void setHashedKey(Integer hashedKey) {
         this.hashedKey = hashedKey;
     }
 }

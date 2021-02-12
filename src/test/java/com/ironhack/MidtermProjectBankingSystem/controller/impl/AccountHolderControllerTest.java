@@ -82,7 +82,7 @@ class AccountHolderControllerTest {
 
         Role role2 = new Role();
         role2.setName("ACCOUNTHOLDER");
-        role2.setUser(accountHolder);
+        role2.setUser(accountHolder2);
         roleRepository.save(role2);
 
         Account account = new Account();

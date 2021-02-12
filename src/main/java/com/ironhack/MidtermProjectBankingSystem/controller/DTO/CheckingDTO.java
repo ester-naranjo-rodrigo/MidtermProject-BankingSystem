@@ -17,7 +17,7 @@ public class CheckingDTO {
     @NotNull(message = "Primary Owner Id is required")
     private Long idPrimaryOwner;
 
-    private Optional<Long> idSecondaryOwner;
+    private Long idSecondaryOwner;
 
     @NotNull(message = "Secret key can not be null")
     private String secretKey;
@@ -26,7 +26,7 @@ public class CheckingDTO {
     public CheckingDTO() {
     }
 
-    public CheckingDTO(@NotNull(message = "Balance is required") BigDecimal balance, @NotNull(message = "Primary Owner Id is required") Long idPrimaryOwner, Optional<Long> idSecondaryOwner, @NotNull(message = "Secret key can not be null") String secretKey) {
+    public CheckingDTO(@NotNull(message = "Balance is required") BigDecimal balance, @NotNull(message = "Primary Owner Id is required") Long idPrimaryOwner, Long idSecondaryOwner, @NotNull(message = "Secret key can not be null") String secretKey) {
         this.balance = balance;
         this.idPrimaryOwner = idPrimaryOwner;
         this.idSecondaryOwner = idSecondaryOwner;
@@ -49,11 +49,11 @@ public class CheckingDTO {
         this.idPrimaryOwner = idPrimaryOwner;
     }
 
-    public Optional<Long> getIdSecondaryOwner() {
+    public Long getIdSecondaryOwner() {
         return idSecondaryOwner;
     }
 
-    public void setIdSecondaryOwner(Optional<Long> idSecondaryOwner) {
+    public void setIdSecondaryOwner(Long idSecondaryOwner) {
         this.idSecondaryOwner = idSecondaryOwner;
     }
 
