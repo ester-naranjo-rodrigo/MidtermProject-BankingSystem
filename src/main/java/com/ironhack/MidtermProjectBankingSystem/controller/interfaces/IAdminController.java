@@ -17,7 +17,14 @@ public interface IAdminController {
     public AccountHolder createAccountHolder(AccountHolderDTO accountHolderDTO);
     public ThirdParty createThirdParty(ThirdPartyDTO thirdPartyDTO);
     public List<AccountHolder> findAccountHolders();
-    public void updateStatus(long id, StatusDTO statusDTO);
+    public Optional<AccountHolder> findAccountHoldersById(Long id);
+    public List<Account> findAccounts();
+    public Optional<Account> findAccountById(Long id);
+    public List<Checking> findAllChecking();
+    public List<StudentChecking> findAllStudentChecking();
+    public List<Savings> findAllSavings();
+    public List<CreditCard> findAllCreditCard();
+    public void updateStatus(Long id, StatusDTO statusDTO);
     public void updateBalance (Long id, BalanceDTO balance);
 
 }

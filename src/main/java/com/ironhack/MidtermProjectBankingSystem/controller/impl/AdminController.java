@@ -4,6 +4,7 @@ import com.ironhack.MidtermProjectBankingSystem.controller.DTO.*;
 import com.ironhack.MidtermProjectBankingSystem.controller.interfaces.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Users.*;
+import com.ironhack.MidtermProjectBankingSystem.repository.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.repository.Users.*;
 import com.ironhack.MidtermProjectBankingSystem.service.*;
 import org.springframework.beans.factory.annotation.*;
@@ -30,9 +31,59 @@ public class AdminController implements IAdminController {
     @Autowired
     private ThirdPartyService thirdPartyService;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private CheckingRepository checkingRepository;
+
+    @Autowired
+    private StudentCheckingRepository studentCheckingRepository;
+
+    @Autowired
+    private SavingsRepository savingsRepository;
+
+    @Autowired
+    private CreditCardRepository creditCardRepository;
+
     @GetMapping("/check/accountHolders")
     public List<AccountHolder> findAccountHolders() {
         return accountHolderRepository.findAll();
+    }
+
+    @GetMapping("/check/accountHolder/{id}")
+    public Optional<AccountHolder> findAccountHoldersById(@PathVariable Long id) {
+        return accountHolderRepository.findById(id);
+    }
+
+    @GetMapping("/check/accounts")
+    public List<Account> findAccounts() {
+        return accountRepository.findAll();
+    }
+
+    @GetMapping("/check/account/{id}")
+    public Optional<Account> findAccountById(@PathVariable Long id) {
+        return accountRepository.findById(id);
+    }
+
+    @GetMapping("/check/allChecking")
+    public List<Checking> findAllChecking() {
+        return checkingRepository.findAll();
+    }
+
+    @GetMapping("/check/allStudentChecking")
+    public List<StudentChecking> findAllStudentChecking() {
+        return studentCheckingRepository.findAll();
+    }
+
+    @GetMapping("/check/allSavings")
+    public List<Savings> findAllSavings() {
+        return savingsRepository.findAll();
+    }
+
+    @GetMapping("/check/allCreditCard")
+    public List<CreditCard> findAllCreditCard() {
+        return creditCardRepository.findAll();
     }
 
     @PostMapping("/create/savings")
@@ -67,7 +118,7 @@ public class AdminController implements IAdminController {
 
     @PatchMapping("/update/changeStatus/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateStatus(@PathVariable long id, @RequestBody @Valid StatusDTO statusDTO) {
+    public void updateStatus(@PathVariable Long id, @RequestBody @Valid StatusDTO statusDTO) {
         accountService.updateStatus(id, statusDTO.getStatus());
     }
 

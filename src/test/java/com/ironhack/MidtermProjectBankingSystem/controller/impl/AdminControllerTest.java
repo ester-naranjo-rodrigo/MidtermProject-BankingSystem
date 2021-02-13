@@ -50,6 +50,8 @@ class AdminControllerTest {
     private SavingsRepository savingsRepository;
     @Autowired
     private CreditCardRepository creditCardRepository;
+    @Autowired
+    private StudentCheckingRepository studentCheckingRepository;
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -60,7 +62,7 @@ class AdminControllerTest {
 
         AccountHolder accountHolder = new AccountHolder();
         accountHolder.setName("Pepa");
-        accountHolder.setDateOfBirth(LocalDate.of(2020, 1, 8));
+        accountHolder.setDateOfBirth(LocalDate.of(1980, 1, 8));
         accountHolder.setUsername("pepa12345");
         accountHolder.setPassword("$2a$10$BE3p4yAl6JDeYhRuXmPUsOwFPn/2ZA8U7loYUoQ/.bk.OOgH10njW");
         accountHolder.setPrimaryAddress(new Address("Calle bla bla", "Ciudad", "País ...", 1234));
@@ -69,7 +71,7 @@ class AdminControllerTest {
 
         AccountHolder accountHolder2 = new AccountHolder();
         accountHolder2.setName("Pepe");
-        accountHolder2.setDateOfBirth(LocalDate.of(2020, 1, 8));
+        accountHolder2.setDateOfBirth(LocalDate.of(2015, 1, 8));
         accountHolder2.setUsername("pepe12345");
         accountHolder2.setPassword("$2a$10$BE3p4yAl6JDeYhRuXmPUsOwFPn/2ZA8U7loYUoQ/.bk.OOgH10njW");
         accountHolder2.setPrimaryAddress(new Address("Calle bla bla", "Ciudad", "País ...", 1234));
@@ -115,6 +117,12 @@ class AdminControllerTest {
         checking.setSecretKey("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe"); //secretKey
         checkingRepository.save(checking);
 
+        StudentChecking studentChecking = new StudentChecking();
+        studentChecking.setBalance((new Money(new BigDecimal("4444"))));
+        studentChecking.setPrimaryOwner(accountHolder2);
+        studentChecking.setSecretKey("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe"); //secretKey
+        studentCheckingRepository.save(studentChecking);
+
         CreditCard creditCard = new CreditCard();
         creditCard.setCreditLimit(new Money(new BigDecimal((300))));
         creditCard.setBalance(new Money(new BigDecimal((3400))));
@@ -123,7 +131,7 @@ class AdminControllerTest {
         creditCardRepository.save(creditCard);
 
         Savings savings = new Savings();
-        savings.setBalance(new Money(new BigDecimal((3400))));
+        savings.setBalance(new Money(new BigDecimal((4800))));
         checking.setSecretKey("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe"); //secretKey
         savings.setPrimaryOwner(accountHolder);
         savingsRepository.save(savings);
@@ -146,6 +154,56 @@ class AdminControllerTest {
         MvcResult result = mockMvc.perform(get("/check/accountHolders").with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("admin1", "admin1"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("Pepa"));
+    }
+
+    @Test
+    void findAccountHoldersById() throws Exception {
+        MvcResult result = mockMvc.perform(get("/check/accountHolder/" + accountHolderRepository.findAll().get(0).getId()).with(SecurityMockMvcRequestPostProcessors.
+                httpBasic("admin1", "admin1"))).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("Pepa"));
+    }
+
+    @Test
+    void findAccounts() throws Exception {
+        MvcResult result = mockMvc.perform(get("/check/accounts").with(SecurityMockMvcRequestPostProcessors.
+                httpBasic("admin1", "admin1"))).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("246810"));
+    }
+
+    @Test
+    void findAccountsById() throws Exception {
+        MvcResult result = mockMvc.perform(get("/check/account/" + accountRepository.findAll().get(0).getId()).with(SecurityMockMvcRequestPostProcessors.
+                httpBasic("admin1", "admin1"))).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("1478"));
+    }
+
+
+    @Test
+    void findAllChecking() throws Exception {
+        MvcResult result = mockMvc.perform(get("/check/allChecking").with(SecurityMockMvcRequestPostProcessors.
+                httpBasic("admin1", "admin1"))).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("6200"));
+    }
+
+    @Test
+    void findAllStudentChecking() throws Exception {
+        MvcResult result = mockMvc.perform(get("/check/allStudentChecking").with(SecurityMockMvcRequestPostProcessors.
+                httpBasic("admin1", "admin1"))).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("4444"));
+    }
+
+    @Test
+    void findAllSavings() throws Exception {
+        MvcResult result = mockMvc.perform(get("/check/allSavings").with(SecurityMockMvcRequestPostProcessors.
+                httpBasic("admin1", "admin1"))).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("4800"));
+    }
+
+    @Test
+    void findAllCreditCard() throws Exception {
+        MvcResult result = mockMvc.perform(get("/check/allCreditCard").with(SecurityMockMvcRequestPostProcessors.
+                httpBasic("admin1", "admin1"))).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("3400"));
     }
 
     @Test
