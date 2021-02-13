@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.*;
 
 import java.util.*;
 
-public class FraudChecker {
+public class FraudCheck {
 
     @Autowired
     private TransactionRepository transactionRepository;

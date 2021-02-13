@@ -182,7 +182,6 @@ public class AccountService {
         }
     }
 
-
     public void update (Integer hashedKey, AccountDTO accountDTO) {
         Optional<Account> account = accountRepository.findById(accountDTO.getId());
         Optional <ThirdParty> thirdParty = thirdPartyRepository.findByHashedKey(hashedKey);

@@ -1,16 +1,10 @@
 package com.ironhack.MidtermProjectBankingSystem.service;
 
 import com.ironhack.MidtermProjectBankingSystem.controller.DTO.*;
-import com.ironhack.MidtermProjectBankingSystem.enums.*;
-import com.ironhack.MidtermProjectBankingSystem.model.Accounts.*;
-import com.ironhack.MidtermProjectBankingSystem.model.AuxClasses.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Users.*;
-import com.ironhack.MidtermProjectBankingSystem.repository.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.repository.Users.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
-
-import java.util.*;
 
 @Service
 public class AccountHolderService {
