@@ -43,12 +43,13 @@ public class TransactionService {
 
 
             List<Transaction> transactions = originAccount.getSentTransactions();
-            if (transactions.size() >= 1) {
+            if (transactions.size() >= 2) {
                 Transaction lastTransaction = transactions.get(transactions.size() - 1);
                 long secondsBetweenTransactions = (transactionDTO.getTransactionDate().getTime() -
                         lastTransaction.getTransactionDate().getTime()) / 1000;
                 long last24hTransactions = transactionRepository.findTransactionsLast24h(originAccount.getId());
                 long maxHistoric24hTransactions = transactionRepository.findMaxTransactions24hPeriod(originAccount.getId());
+
                 if (secondsBetweenTransactions <= 1 || last24hTransactions > 1.5 * maxHistoric24hTransactions) {
                     if (originAccount instanceof Checking) {
                         ((Checking) originAccount).setStatus(Status.FROZEN);
@@ -125,12 +126,6 @@ public class TransactionService {
         }else{
             throw new IllegalArgumentException("The given Account id doest not match any account");
         }
-    }
-
-
-    public void thirdPartyOperation (OperationThirdPartyDTO operationThirdPartyDTO) {
-
-
     }
 }
 

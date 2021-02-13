@@ -17,15 +17,12 @@ import java.util.*;
 @DynamicUpdate
 public class AccountHolder extends User {
 
-    @NotNull
     private LocalDate dateOfBirth;
 
     @Embedded
-    @Valid
     private Address primaryAddress;
 
     @Embedded
-    @Valid
     @AttributeOverrides({
             @AttributeOverride(name="street", column=@Column(name="mailing_street")),
             @AttributeOverride(name="city", column=@Column(name="mailing_city")),
@@ -45,7 +42,7 @@ public class AccountHolder extends User {
     public AccountHolder() {
     }
 
-    public AccountHolder(String username, String password, Set<Role> roles, @NotNull String name, @NotNull LocalDate dateOfBirth, @Valid Address primaryAddress, @Valid Address mailingAddress, List<Account> primaryAccounts, List<Account> secondaryAccounts) {
+    public AccountHolder(String username, String password, Set<Role> roles, String name, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress, List<Account> primaryAccounts, List<Account> secondaryAccounts) {
         super(username, password, roles, name);
         this.dateOfBirth = dateOfBirth;
         this.primaryAddress = primaryAddress;

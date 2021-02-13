@@ -3,6 +3,7 @@ package com.ironhack.MidtermProjectBankingSystem.controller.impl;
 import com.ironhack.MidtermProjectBankingSystem.controller.DTO.*;
 import com.ironhack.MidtermProjectBankingSystem.controller.interfaces.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Users.*;
+import com.ironhack.MidtermProjectBankingSystem.repository.Users.*;
 import com.ironhack.MidtermProjectBankingSystem.service.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -20,22 +21,19 @@ public class ThirdPartyController implements IThirdPartyController {
     @Autowired
     private ThirdPartyService thirdPartyService;
 
-    @GetMapping("/check/third-party")
+    @Autowired
+    private ThirdPartyRepository thirdPartyRepository;
+
+    @GetMapping("/check/thirdParties")
     @ResponseStatus(HttpStatus.OK)
     public List<ThirdParty> getAll() {
-        return thirdPartyService.getAll();
+        return thirdPartyRepository.findAll();
     }
 
-    @GetMapping("/check/third-party/{id}")
+    @GetMapping("/check/thirdParty/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ThirdParty getById(@PathVariable long id) {
         return thirdPartyService.getById(id);
-    }
-
-    @PostMapping("/create/third-party")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ThirdParty create(@RequestBody @Valid ThirdPartyDTO thirdPartyDTO) {
-        return thirdPartyService.createThirdParty(thirdPartyDTO);
     }
 
     @PatchMapping("/thirdPartyOperation")

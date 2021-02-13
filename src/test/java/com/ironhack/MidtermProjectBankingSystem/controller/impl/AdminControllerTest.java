@@ -259,7 +259,7 @@ class AdminControllerTest {
     void create_above24() throws Exception {
         AccountHolder accountHolder5 = new AccountHolder();
         accountHolder5.setName("Samuel");
-        accountHolder5.setDateOfBirth(LocalDate.of(1993 , 10, 27));
+        accountHolder5.setDateOfBirth(LocalDate.of(1993, 10, 27));
         accountHolder5.setUsername("samucc");
         accountHolder5.setPassword("$2a$10$hr66If9xZyBdDWrSQeyLlORqrl7lSOaAOqKwb7ipcPoO/jlE7P6YO"); //password: 123456
         accountHolder5.setPrimaryAddress(new Address("Calle Mercedes", "Madrid", "España", 28019));
@@ -282,11 +282,34 @@ class AdminControllerTest {
 
 
     @Test
-    void createAccountHolder() {
+    void createAccountHolder() throws Exception {
+
+        String json = "{ \"name\": \"Pepa\", \"dateOfBirth\": \"2010-06-13\", \"username\": \"k\", \"password\": " +
+                "\"$2a$10$BE3p4yAl6JDeYhRuXmPUsOwFPn/2ZA8U7loYUoQ/.bk.OOgH10njW\", \"primaryAddress\": {\"street\": \"aa\", " +
+                "\"city\": \"aa\", \"country\": \"aa\", \"zipCode\": \"11\" },\"mailingAddress\": {\"street\": \"aa\",\"city\": " +
+                "\"aa\",\"country\": \"aa\",\"zipCode\": \"11\" } }";
+
+        MvcResult result =mockMvc.perform(
+                post("/create/accountHolder")
+                        .content(json).contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin1", "admin1")))
+                .andExpect(status().isCreated())
+                .andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("Pepa"));
     }
 
     @Test
-    void createThirdParty() {
+    void createThirdParty() throws Exception {
+        ThirdPartyDTO thirdPartyDTO = new ThirdPartyDTO();
+        thirdPartyDTO.setName("Inditex");
+
+        String body = objectMapper.writeValueAsString(thirdPartyDTO);
+        MvcResult result =mockMvc.perform(
+                post("/create/thirdParty")
+                        .content(body).contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin1", "admin1")))
+                .andExpect(status().isCreated())
+                .andReturn();
     }
 
     @Test

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
 import org.springframework.http.*;
+import org.springframework.security.test.web.servlet.request.*;
 import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.setup.*;
 import org.springframework.web.context.*;
@@ -23,6 +24,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -118,15 +120,21 @@ class ThirdPartyControllerTest {
     }
 
     @Test
-    void getAll() {
+    void getAll() throws Exception {
+        ThirdParty thirdParty = new ThirdParty();
+        thirdParty.setName("Inditex");
+        thirdParty.setHashedKey(4444);
+        thirdPartyRepository.save(thirdParty);
+        MvcResult result = mockMvc.perform(get("/check/thirdParties").with(SecurityMockMvcRequestPostProcessors.
+                httpBasic("admin1", "0000"))).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("Inditex"));
     }
 
     @Test
-    void getById() {
-    }
-
-    @Test
-    void create() {
+    void getById() throws Exception {
+        MvcResult result = mockMvc.perform(get("/check/thirdParty/" + thirdPartyRepository.findAll().get(0).getId()).with(SecurityMockMvcRequestPostProcessors.
+                httpBasic("admin1", "0000"))).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("Alimentacion Pepe"));
     }
 
     @Test

@@ -10,6 +10,5 @@ import java.util.*;
 public interface IThirdPartyController {
     public List<ThirdParty> getAll();
     public ThirdParty getById(long id);
-    public ThirdParty create(ThirdPartyDTO thirdPartyDTO);
     public void update (Integer hashedKey, AccountDTO accountDTO);
 }
