@@ -1,6 +1,5 @@
 package com.ironhack.MidtermProjectBankingSystem.controller.impl;
 
-import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.ironhack.MidtermProjectBankingSystem.controller.DTO.*;
 import com.ironhack.MidtermProjectBankingSystem.enums.*;

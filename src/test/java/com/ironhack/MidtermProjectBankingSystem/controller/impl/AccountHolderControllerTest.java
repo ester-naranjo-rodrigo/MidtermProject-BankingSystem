@@ -4,36 +4,25 @@ import com.fasterxml.jackson.databind.*;
 import com.ironhack.MidtermProjectBankingSystem.controller.DTO.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.model.AuxClasses.*;
-import com.ironhack.MidtermProjectBankingSystem.model.Transaction.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Users.*;
 import com.ironhack.MidtermProjectBankingSystem.repository.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.repository.Transaction.*;
 import com.ironhack.MidtermProjectBankingSystem.repository.Users.*;
-import org.hibernate.annotations.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
-import org.springframework.context.support.*;
 import org.springframework.http.*;
-import org.springframework.security.crypto.bcrypt.*;
-import org.springframework.security.crypto.password.*;
-import org.springframework.security.test.context.support.*;
 import org.springframework.security.test.web.servlet.request.*;
 import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.setup.*;
 import org.springframework.web.context.*;
-
 import java.math.*;
 import java.time.*;
-import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 class AccountHolderControllerTest {
 
@@ -108,6 +97,13 @@ class AccountHolderControllerTest {
     @Test
     void findAccountsByAccountHolderId() throws Exception {
         MvcResult result = mockMvc.perform(get("/accounts").with(SecurityMockMvcRequestPostProcessors.
+                httpBasic("pepa12345", "password"))).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("1478"));
+    }
+
+    @Test
+    void findAccountsById() throws Exception {
+        MvcResult result = mockMvc.perform(get("/account/" + accountRepository.findAll().get(0).getId()).with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("pepa12345", "password"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("1478"));
     }

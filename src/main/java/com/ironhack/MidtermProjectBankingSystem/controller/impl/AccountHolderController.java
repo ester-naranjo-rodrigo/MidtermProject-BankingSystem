@@ -5,6 +5,7 @@ import com.ironhack.MidtermProjectBankingSystem.controller.interfaces.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Transaction.*;
 import com.ironhack.MidtermProjectBankingSystem.model.Users.*;
+import com.ironhack.MidtermProjectBankingSystem.repository.Accounts.*;
 import com.ironhack.MidtermProjectBankingSystem.service.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -28,9 +29,17 @@ public class AccountHolderController implements IAccountHolderController {
     @Autowired
     private TransactionService transactionService;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     @GetMapping("/accounts")
-    public List<Account> findAccountsByAccountHolderId(@AuthenticationPrincipal UserDetails userDetails) {
+    public List<Account> findAllAccountsByAccountHolderAuth(@AuthenticationPrincipal UserDetails userDetails) {
         return accountService.getAllAccountsByUsername(userDetails.getUsername());
+    }
+
+    @GetMapping("/account/{id}")
+    public Optional<Account> findAccountsById(@PathVariable Long id) {
+        return accountRepository.findById(id);
     }
 
     @PostMapping("/transaction")

@@ -9,6 +9,6 @@ import org.springframework.security.core.userdetails.*;
 import java.util.*;
 
 public interface IAccountHolderController {
-    public List<Account> findAccountsByAccountHolderId(UserDetails userDetails);
+    public List<Account> findAllAccountsByAccountHolderAuth(UserDetails userDetails);
     public Transaction create (TransactionDTO transactionDTO, UserDetails userDetails);
 }
