@@ -32,7 +32,7 @@ public class TransactionService {
     @Autowired
     private CreditCardRepository creditCardRepository;
 
-    public Transaction create (TransactionDTO transactionDTO, UserDetails userDetails) {
+    public Transaction transferMoney (TransactionDTO transactionDTO, UserDetails userDetails) {
 
         Optional<Account> originAccountOp = accountRepository.findById(transactionDTO.getOrigenAccountId());
         Optional<Account> destinationAccountOp = accountRepository.findById(transactionDTO.getDestinationAccountId());
@@ -40,7 +40,6 @@ public class TransactionService {
 
             Account originAccount = originAccountOp.get();
             Account destinationAccount = destinationAccountOp.get();
-
 
             List<Transaction> transactions = originAccount.getSentTransactions();
             if (transactions.size() >= 2) {
@@ -53,18 +52,18 @@ public class TransactionService {
                 if (secondsBetweenTransactions <= 1 || last24hTransactions > 1.5 * maxHistoric24hTransactions) {
                     if (originAccount instanceof Checking) {
                         ((Checking) originAccount).setStatus(Status.FROZEN);
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fraud detection activated, " +
-                                "origin account frozen for security reasons ");
+                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fraud detection, " +
+                                "account frozen for security");
                     }
                     if (originAccount instanceof StudentChecking) {
                         ((StudentChecking) originAccount).setStatus(Status.FROZEN);
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fraud detection activated, " +
-                                "origin account frozen for security reasons ");
+                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fraud detection, " +
+                                "account frozen for security");
                     }
                     if (originAccount instanceof Savings) {
                         ((Savings) originAccount).setStatus(Status.FROZEN);
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fraud detection activated, " +
-                                "origin account frozen for security reasons ");
+                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fraud detection, " +
+                                "account frozen for security");
                     }
                 }
             }
@@ -117,14 +116,14 @@ public class TransactionService {
                 transaction.setDestinationAccount(destinationAccount);
                 return transactionRepository.save(transaction);
             } else if (!userBool) {
-                throw new IllegalArgumentException("Incorrect username or password");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The secretKey or username is incorrect");
             } else if (!nameBool){
-                throw new IllegalArgumentException("The given name doest not match any account");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name is incorrect");
             }else{
-                throw new IllegalArgumentException("There is not enough money to make de transaction");
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not enough money to make de transaction");
             }
         }else{
-            throw new IllegalArgumentException("The given Account id doest not match any account");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The Id is incorrect");
         }
     }
 }

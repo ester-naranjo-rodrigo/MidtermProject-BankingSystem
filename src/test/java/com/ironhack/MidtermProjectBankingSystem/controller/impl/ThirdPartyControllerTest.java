@@ -141,12 +141,12 @@ class ThirdPartyControllerTest {
     void update_sendTransaction() throws Exception {
         List<Savings> savings = savingsRepository.findAll();
         List<ThirdParty> thirdParties = thirdPartyRepository.findAll();
-        AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setId(savings.get(0).getId());
-        accountDTO.setTransactionType(TransactionType.SEND);
-        accountDTO.setSecretKey("123456");
-        accountDTO.setAmount(BigDecimal.valueOf(22));
-        String body = objectMapper.writeValueAsString(accountDTO);
+        OperationThirdPartyDTO operationThirdPartyDTO = new OperationThirdPartyDTO();
+        operationThirdPartyDTO.setId(savings.get(0).getId());
+        operationThirdPartyDTO.setTransactionType(TransactionType.SEND);
+        operationThirdPartyDTO.setSecretKey("123456");
+        operationThirdPartyDTO.setAmount(BigDecimal.valueOf(22));
+        String body = objectMapper.writeValueAsString(operationThirdPartyDTO);
         MvcResult result = mockMvc.perform(patch("/thirdPartyOperation?hashedKey=" + thirdParties.get(0).getHashedKey())
                 .content(body).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
@@ -157,12 +157,12 @@ class ThirdPartyControllerTest {
     void update_receiveTransaction() throws Exception {
         List<Savings> savings = savingsRepository.findAll();
         List<ThirdParty> thirdParties = thirdPartyRepository.findAll();
-        AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setId(savings.get(0).getId());
-        accountDTO.setTransactionType(TransactionType.RECEIVE);
-        accountDTO.setSecretKey("123456");
-        accountDTO.setAmount(BigDecimal.valueOf(22));
-        String body = objectMapper.writeValueAsString(accountDTO);
+        OperationThirdPartyDTO operationThirdPartyDTO = new OperationThirdPartyDTO();
+        operationThirdPartyDTO.setId(savings.get(0).getId());
+        operationThirdPartyDTO.setTransactionType(TransactionType.RECEIVE);
+        operationThirdPartyDTO.setSecretKey("123456");
+        operationThirdPartyDTO.setAmount(BigDecimal.valueOf(22));
+        String body = objectMapper.writeValueAsString(operationThirdPartyDTO);
         MvcResult result = mockMvc.perform(patch("/thirdPartyOperation?hashedKey=" + thirdParties.get(0).getHashedKey())
                 .content(body).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())

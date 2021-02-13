@@ -1,5 +1,6 @@
 package com.ironhack.MidtermProjectBankingSystem.controller.DTO;
 
+import com.ironhack.MidtermProjectBankingSystem.enums.*;
 import com.ironhack.MidtermProjectBankingSystem.model.AuxClasses.*;
 
 import javax.persistence.*;
@@ -8,34 +9,25 @@ import java.math.*;
 
 public class OperationThirdPartyDTO {
 
-    @NotNull
-    private String hashKey;
-
-    @NotNull
+    @NotNull(message = "Amount cannot be null")
+    @Positive (message = "The amount must be positive")
     private BigDecimal amount;
-
-    @NotNull
-    private Long accountId;
-
-    @NotNull
+    @NotNull (message = "Id cannot be null")
+    private Long id;
+    @NotNull (message = "Secretkey cannot be null")
     private String secretKey;
+    @Enumerated(EnumType.STRING)
+    @NotNull (message = "Transaction type cannot be null")
+    private TransactionType transactionType;
 
     public OperationThirdPartyDTO() {
     }
 
-    public OperationThirdPartyDTO(@NotNull String hashKey, @NotNull BigDecimal amount, @NotNull Long accountId, @NotNull String secretKey) {
-        this.hashKey = hashKey;
+    public OperationThirdPartyDTO(@NotNull(message = "Please, specify the amount to transfer") @Positive(message = "The amount must be positive") BigDecimal amount, @NotNull(message = "Please, specify the id of the account") Long id, @NotNull(message = "Please, specify the secretKey of the account") String secretKey, @NotNull TransactionType transactionType) {
         this.amount = amount;
-        this.accountId = accountId;
+        this.id = id;
         this.secretKey = secretKey;
-    }
-
-    public String getHashKey() {
-        return hashKey;
-    }
-
-    public void setHashKey(String hashKey) {
-        this.hashKey = hashKey;
+        this.transactionType = transactionType;
     }
 
     public BigDecimal getAmount() {
@@ -46,12 +38,12 @@ public class OperationThirdPartyDTO {
         this.amount = amount;
     }
 
-    public Long getAccountId() {
-        return accountId;
+    public Long getId() {
+        return id;
     }
 
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getSecretKey() {
@@ -61,6 +53,15 @@ public class OperationThirdPartyDTO {
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
     }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
 }
+
 
 

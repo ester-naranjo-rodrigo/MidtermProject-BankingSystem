@@ -8,13 +8,13 @@ import java.util.*;
 
 public class TransactionDTO {
 
-    @NotNull
+    @NotNull(message = "Origen Account Id can not be null")
     private Long origenAccountId;
-    @NotNull
+    @NotNull(message = "Destination Account Id can not be null")
     private Long destinationAccountId;
-    @NotNull
+    @NotNull(message = "Description can not be null")
     private String description;
-    @NotNull
+    @NotNull(message = "Amount can not be null")
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "amount", column = @Column(name = "transaction_amount")),
@@ -22,6 +22,7 @@ public class TransactionDTO {
     })
     private Money amount;
     private Date transactionDate;
+    @NotNull(message = "Name owner's destination account can not be null")
     private String nameOwnerDestinationAccount;
 
     public TransactionDTO(){

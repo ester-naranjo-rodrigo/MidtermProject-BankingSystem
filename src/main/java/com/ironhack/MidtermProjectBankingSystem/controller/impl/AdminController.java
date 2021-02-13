@@ -12,6 +12,7 @@ import org.springframework.http.*;
 import org.springframework.security.core.annotation.*;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.*;
 
 import javax.validation.*;
 import java.util.*;
@@ -53,6 +54,9 @@ public class AdminController implements IAdminController {
 
     @GetMapping("/check/accountHolder/{id}")
     public Optional<AccountHolder> findAccountHoldersById(@PathVariable Long id) {
+        if(!accountHolderRepository.existsById(id)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AccountHolder not found");
+        }
         return accountHolderRepository.findById(id);
     }
 

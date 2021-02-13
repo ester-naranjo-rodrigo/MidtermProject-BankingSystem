@@ -38,7 +38,7 @@ public class ThirdPartyController implements IThirdPartyController {
 
     @PatchMapping("/thirdPartyOperation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update (@RequestParam Integer hashedKey, @RequestBody AccountDTO accountDTO) {
-        accountService.update(hashedKey, accountDTO);
+    public void thirdPartyOperation (@RequestParam Integer hashedKey, @RequestBody OperationThirdPartyDTO operationThirdPartyDTO) {
+        accountService.operationThirdParty(hashedKey, operationThirdPartyDTO);
     }
 }

@@ -69,7 +69,7 @@ public class AccountService {
         savings.setStatus(Status.ACTIVE);
 
         if(newAccount.getBalance().doubleValue() < newAccount.getMinimumBalance().doubleValue()){
-            throw new IllegalArgumentException("Balance amount can not be less than minimum balance amount");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Balance amount can not be < minimum balance");
         }
 
         savings.setBalance(new Money(newAccount.getBalance()));
@@ -125,7 +125,7 @@ public class AccountService {
             checking.setStatus(Status.ACTIVE);
             checking.setSecretKey(newAccount.getSecretKey());
             if(newAccount.getBalance().doubleValue() < checking.getMinimumBalance().getAmount().doubleValue()){
-                throw new IllegalArgumentException("Balance amount can not be less than minimum balance amount");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Balance amount can not be < minimum balance");
             }
             checking.setBalance(new Money(newAccount.getBalance()));
             checking.setDateOfCreation(LocalDate.now());
@@ -182,7 +182,8 @@ public class AccountService {
         }
     }
 
-    public void update (Integer hashedKey, AccountDTO accountDTO) {
+
+    public void operationThirdParty (Integer hashedKey, OperationThirdPartyDTO accountDTO) {
         Optional<Account> account = accountRepository.findById(accountDTO.getId());
         Optional <ThirdParty> thirdParty = thirdPartyRepository.findByHashedKey(hashedKey);
         if (account.isPresent() && thirdParty.isPresent()) {
@@ -194,7 +195,7 @@ public class AccountService {
                         account.get().setBalance(new Money(account.get().getBalance().decreaseAmount(accountDTO.getAmount())));
                     }
                 }else {
-                    throw new IllegalArgumentException("The secretKey is incorrect");
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The secretKey is incorrect");
                 }
             }else if (account.get() instanceof Checking) {
                 if (((Checking) account.get()).getSecretKey().equals(accountDTO.getSecretKey())){
@@ -204,7 +205,7 @@ public class AccountService {
                         account.get().setBalance(new Money(account.get().getBalance().decreaseAmount(accountDTO.getAmount())));
                     }
                 }else {
-                    throw new IllegalArgumentException("The secretKey is incorrect");
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The secretKey is incorrect");
                 }
             }else if (account.get() instanceof StudentChecking) {
                 if (((StudentChecking) account.get()).getSecretKey().equals(accountDTO.getSecretKey())) {
@@ -214,7 +215,7 @@ public class AccountService {
                         account.get().setBalance(new Money(account.get().getBalance().decreaseAmount(accountDTO.getAmount())));
                     }
                 } else {
-                    throw new IllegalArgumentException("The secretKey is incorrect");
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The secretKey is incorrect");
                 }
             }else{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The type account is not correct");

@@ -38,6 +38,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.httpBasic();
         http.authorizeRequests()
                 .mvcMatchers("/accounts").hasAuthority("ROLE_ACCOUNTHOLDER")
+                .mvcMatchers("/account/**").hasAuthority("ROLE_ACCOUNTHOLDER")
+                .mvcMatchers("/transaction").hasAuthority("ROLE_ACCOUNTHOLDER")
                 .mvcMatchers("/create/**").hasAuthority("ROLE_ADMIN")
                 .mvcMatchers("/update/**").hasAuthority("ROLE_ADMIN")
                 .mvcMatchers("/check/**").hasAuthority("ROLE_ADMIN")

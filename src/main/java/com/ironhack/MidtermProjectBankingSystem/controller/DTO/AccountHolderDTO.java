@@ -9,10 +9,10 @@ import java.time.*;
 import java.util.*;
 
 public class AccountHolderDTO {
-    @NotNull
+    @NotNull(message = "Name can not be null")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Date of birth can not be null")
     private LocalDate dateOfBirth;
 
     @NotNull(message = "Username can not be null")

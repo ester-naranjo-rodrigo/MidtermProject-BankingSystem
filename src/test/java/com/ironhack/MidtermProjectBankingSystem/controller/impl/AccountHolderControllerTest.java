@@ -109,7 +109,7 @@ class AccountHolderControllerTest {
     }
 
     @Test
-    void create() throws Exception {
+    void transferMoney() throws Exception {
 
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setAmount(new Money(new BigDecimal("30")));

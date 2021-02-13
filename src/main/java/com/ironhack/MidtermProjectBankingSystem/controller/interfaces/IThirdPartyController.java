@@ -10,5 +10,5 @@ import java.util.*;
 public interface IThirdPartyController {
     public List<ThirdParty> getAll();
     public ThirdParty getById(long id);
-    public void update (Integer hashedKey, AccountDTO accountDTO);
+    public void thirdPartyOperation (Integer hashedKey, OperationThirdPartyDTO operationThirdPartyDTO);
 }
