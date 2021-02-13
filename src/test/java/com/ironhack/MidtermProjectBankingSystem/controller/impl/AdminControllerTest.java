@@ -310,6 +310,7 @@ class AdminControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin1", "admin1")))
                 .andExpect(status().isCreated())
                 .andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("Inditex"));
     }
 
     @Test

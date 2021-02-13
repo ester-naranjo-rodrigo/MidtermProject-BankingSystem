@@ -138,12 +138,28 @@ class ThirdPartyControllerTest {
     }
 
     @Test
-    void update() throws Exception {
+    void update_sendTransaction() throws Exception {
         List<Savings> savings = savingsRepository.findAll();
         List<ThirdParty> thirdParties = thirdPartyRepository.findAll();
         AccountDTO accountDTO = new AccountDTO();
         accountDTO.setId(savings.get(0).getId());
         accountDTO.setTransactionType(TransactionType.SEND);
+        accountDTO.setSecretKey("123456");
+        accountDTO.setAmount(BigDecimal.valueOf(22));
+        String body = objectMapper.writeValueAsString(accountDTO);
+        MvcResult result = mockMvc.perform(patch("/thirdPartyOperation?hashedKey=" + thirdParties.get(0).getHashedKey())
+                .content(body).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent())
+                .andReturn();
+    }
+
+    @Test
+    void update_receiveTransaction() throws Exception {
+        List<Savings> savings = savingsRepository.findAll();
+        List<ThirdParty> thirdParties = thirdPartyRepository.findAll();
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setId(savings.get(0).getId());
+        accountDTO.setTransactionType(TransactionType.RECEIVE);
         accountDTO.setSecretKey("123456");
         accountDTO.setAmount(BigDecimal.valueOf(22));
         String body = objectMapper.writeValueAsString(accountDTO);
