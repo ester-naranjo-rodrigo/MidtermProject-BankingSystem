@@ -131,7 +131,7 @@ class AdminControllerTest {
 
         Savings savings = new Savings();
         savings.setBalance(new Money(new BigDecimal((4800))));
-        checking.setSecretKey("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe"); //secretKey
+        savings.setSecretKey("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe"); //secretKey
         savings.setPrimaryOwner(accountHolder);
         savingsRepository.save(savings);
 
