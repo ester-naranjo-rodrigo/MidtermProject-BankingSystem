@@ -73,11 +73,6 @@ The routes are based in tables created with src/main/resources/static/midterm.sq
   - Username: admin1
   - Password: admin1
   
-  
-  
-  
-  
-  
 ## Create savings account by an Admin:
   - Method: POST
   - URL: http://localhost:8080/create/savings
@@ -150,6 +145,34 @@ The routes are based in tables created with src/main/resources/static/midterm.sq
   - Body: {
     "name": "Tienda alimentación"
 }
+
+## Create transaction by an Account Holder:
+  - Method: POST
+  - URL: http://localhost:8080/transaction
+  - Username: username1
+  - Password: password
+  - Body: {
+        "origenAccountId": 1,
+        "destinationAccountId":2,
+        "description": "Gastos casa",
+        "amount": {
+            "currency": "EUR",
+            "amount": 66.00
+        }, 
+        "nameOwnerDestinationAccount":"Eduardo" 
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Create transaction by an Account Holder:
   - Method: POST
