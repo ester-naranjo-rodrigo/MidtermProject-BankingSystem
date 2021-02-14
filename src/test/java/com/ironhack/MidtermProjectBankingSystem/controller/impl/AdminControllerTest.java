@@ -60,9 +60,9 @@ class AdminControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
 
         AccountHolder accountHolder = new AccountHolder();
-        accountHolder.setName("Pepa");
+        accountHolder.setName("Elisa");
         accountHolder.setDateOfBirth(LocalDate.of(1980, 1, 8));
-        accountHolder.setUsername("pepa12345");
+        accountHolder.setUsername("elisa12345");
         accountHolder.setPassword("$2a$10$BE3p4yAl6JDeYhRuXmPUsOwFPn/2ZA8U7loYUoQ/.bk.OOgH10njW");
         accountHolder.setPrimaryAddress(new Address("Calle bla bla", "Ciudad", "País ...", 1234));
         accountHolder.setMailingAddress(new Address("Avenida bla bla", "Ciudad ..", "País ...", 5678));
@@ -149,28 +149,28 @@ class AdminControllerTest {
     }
 
     @Test
-    void findAccountHolders() throws Exception {
+    void findAccountHolders_basicAuth_accountList() throws Exception {
         MvcResult result = mockMvc.perform(get("/check/accountHolders").with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("admin1", "admin1"))).andReturn();
-        assertTrue(result.getResponse().getContentAsString().contains("Pepa"));
+        assertTrue(result.getResponse().getContentAsString().contains("Elisa"));
     }
 
     @Test
-    void findAccountHoldersById() throws Exception {
+    void findAccountHoldersById_basicAuthAndId_account() throws Exception {
         MvcResult result = mockMvc.perform(get("/check/accountHolder/" + accountHolderRepository.findAll().get(0).getId()).with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("admin1", "admin1"))).andReturn();
-        assertTrue(result.getResponse().getContentAsString().contains("Pepa"));
+        assertTrue(result.getResponse().getContentAsString().contains("Elisa"));
     }
 
     @Test
-    void findAccounts() throws Exception {
+    void findAccounts_basicAuthAdmin_accountsList() throws Exception {
         MvcResult result = mockMvc.perform(get("/check/accounts").with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("admin1", "admin1"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("246810"));
     }
 
     @Test
-    void findAccountsById() throws Exception {
+    void findAccountsById_basicAuthAdminAndAccountId_account() throws Exception {
         MvcResult result = mockMvc.perform(get("/check/account/" + accountRepository.findAll().get(0).getId()).with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("admin1", "admin1"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("1478"));
@@ -178,46 +178,46 @@ class AdminControllerTest {
 
 
     @Test
-    void findAllChecking() throws Exception {
+    void findAllChecking_basicAuthAdminAndAccountId_allCheckingAccounts() throws Exception {
         MvcResult result = mockMvc.perform(get("/check/allChecking").with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("admin1", "admin1"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("6200"));
     }
 
     @Test
-    void findAllStudentChecking() throws Exception {
+    void findAllStudentChecking_basicAuthAdminAndAccountId_allStudentCheckingAccounts() throws Exception {
         MvcResult result = mockMvc.perform(get("/check/allStudentChecking").with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("admin1", "admin1"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("4444"));
     }
 
     @Test
-    void findAllSavings() throws Exception {
+    void findAllSavings_basicAuthAdminAndAccountId_allSavingsAccounts() throws Exception {
         MvcResult result = mockMvc.perform(get("/check/allSavings").with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("admin1", "admin1"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("4800"));
     }
 
     @Test
-    void findAllCreditCard() throws Exception {
+    void findAllCreditCard_basicAuthAdminAndAccountId_allCreditCardAccounts() throws Exception {
         MvcResult result = mockMvc.perform(get("/check/allCreditCard").with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("admin1", "admin1"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("3400"));
     }
 
     @Test
-    void createAccountSavings() throws Exception {
+    void createAccountSavings_basicAuthAdminAndBodySavingsDTO_savingsAccount() throws Exception {
 
         AccountHolder accountHolder4 = new AccountHolder();
-        accountHolder4.setName("Andrea");
+        accountHolder4.setName("Juana");
         accountHolder4.setDateOfBirth(LocalDate.of(1980, 1, 8));
-        accountHolder4.setUsername("andreaa");
+        accountHolder4.setUsername("juana12345");
         accountHolder4.setPassword("$2a$10$XZLkc4khf3SyiqtHeb1trekDiQxC17DWUX.J2Cx/tF/HdPqvL5Xoa"); //123
-        accountHolder4.setPrimaryAddress(new Address("Calle Colon", "Cadiz", "Spain", 11100));
+        accountHolder4.setPrimaryAddress(new Address("Calle Peñas", "Toledo", "España", 45878));
         accountHolderRepository.save(accountHolder4);
 
         SavingsDTO savingsDTO = new SavingsDTO();
-        savingsDTO.setBalance(new BigDecimal((6400)));
+        savingsDTO.setBalance(new BigDecimal((12365)));
         savingsDTO.setSecretKey("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe"); //secretKey
         savingsDTO.setIdPrimaryOwner(accountHolder4.getId());
 
@@ -229,25 +229,25 @@ class AdminControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin1", "admin1")))
                 .andExpect(status().isCreated())
                 .andReturn();
-        assertTrue(result.getResponse().getContentAsString().contains("6400"));
+        assertTrue(result.getResponse().getContentAsString().contains("12365"));
 
     }
 
     @Test
-    void createAccountCreditCard() throws Exception {
+    void createAccountCreditCard_basicAuthAdminAndBodyCreditCardDTO_creditCardAccount() throws Exception {
 
         AccountHolder accountHolder4 = new AccountHolder();
-        accountHolder4.setName("Andrea");
+        accountHolder4.setName("Juana");
         accountHolder4.setDateOfBirth(LocalDate.of(1980, 1, 8));
-        accountHolder4.setUsername("andreaa");
+        accountHolder4.setUsername("juana12345");
         accountHolder4.setPassword("$2a$10$XZLkc4khf3SyiqtHeb1trekDiQxC17DWUX.J2Cx/tF/HdPqvL5Xoa"); //123
-        accountHolder4.setPrimaryAddress(new Address("Calle Colon", "Cadiz", "Spain", 11100));
+        accountHolder4.setPrimaryAddress(new Address("Calle Peñas", "Toledo", "España", 45878));
         accountHolderRepository.save(accountHolder4);
 
         CreditCardDTO creditCardDTO = new CreditCardDTO();
         creditCardDTO.setCreditLimit(new BigDecimal((300)));
         creditCardDTO.setBalance(new BigDecimal((6400)));
-        creditCardDTO.setInterestRate(new BigDecimal((0.19)));
+        creditCardDTO.setInterestRate(new BigDecimal((0.1)));
         creditCardDTO.setIdPrimaryOwner(accountHolder4.getId());
         String body = objectMapper.writeValueAsString(creditCardDTO);
         MvcResult result = mockMvc.perform(
@@ -257,23 +257,23 @@ class AdminControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin1", "admin1")))
                 .andExpect(status().isCreated())
                 .andReturn();
-        assertTrue(result.getResponse().getContentAsString().contains("0.19"));
+        assertTrue(result.getResponse().getContentAsString().contains("0.1"));
     }
 
     @Test
-    void createAccountChecking() throws Exception {
+    void createAccountChecking_basicAuthAdminAndBodyCheckingDTO_checkingAccount() throws Exception {
         AccountHolder accountHolder4 = new AccountHolder();
-        accountHolder4.setName("Andrea");
+        accountHolder4.setName("Juana");
         accountHolder4.setDateOfBirth(LocalDate.of(1980, 1, 8));
-        accountHolder4.setUsername("andreaa");
+        accountHolder4.setUsername("juana12345");
         accountHolder4.setPassword("$2a$10$XZLkc4khf3SyiqtHeb1trekDiQxC17DWUX.J2Cx/tF/HdPqvL5Xoa"); //123
-        accountHolder4.setPrimaryAddress(new Address("Calle Colon", "Cadiz", "Spain", 11100));
+        accountHolder4.setPrimaryAddress(new Address("Calle Peñas", "Toledo", "España", 45878));
         accountHolderRepository.save(accountHolder4);
 
         CheckingDTO checkingDTO = new CheckingDTO();
         checkingDTO.setSecretKey("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe");
         checkingDTO.setIdPrimaryOwner(accountHolder4.getId());
-        checkingDTO.setBalance(new BigDecimal("1300"));
+        checkingDTO.setBalance(new BigDecimal("1236"));
         String body = objectMapper.writeValueAsString(checkingDTO);
         MvcResult result = mockMvc.perform(
                 post("/create/checking")
@@ -282,23 +282,23 @@ class AdminControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin1", "admin1")))
                 .andExpect(status().isCreated())
                 .andReturn();
-        assertTrue(result.getResponse().getContentAsString().contains("1300"));
+        assertTrue(result.getResponse().getContentAsString().contains("1236"));
 
     }
 
     @Test
-    void create_below24() throws Exception {
+    void createAccountCheckingBelow24_basicAuthAdminAndBodyCheckingDTO_studentCheckingAccount() throws Exception {
         AccountHolder accountHolder5 = new AccountHolder();
-        accountHolder5.setName("Samuel");
+        accountHolder5.setName("José");
         accountHolder5.setDateOfBirth(LocalDate.of(1997 , 10, 27));
-        accountHolder5.setUsername("samucc");
+        accountHolder5.setUsername("jose12345");
         accountHolder5.setPassword("$2a$10$hr66If9xZyBdDWrSQeyLlORqrl7lSOaAOqKwb7ipcPoO/jlE7P6YO"); //password: 123456
-        accountHolder5.setPrimaryAddress(new Address("Calle Mercedes", "Madrid", "España", 28019));
+        accountHolder5.setPrimaryAddress(new Address("Calle Santander", "Madrid", "España", 28887));
         accountHolderRepository.save(accountHolder5);
         CheckingDTO checkingDTO = new CheckingDTO();
         checkingDTO.setIdPrimaryOwner(accountHolder5.getId());
         checkingDTO.setBalance(BigDecimal.valueOf(5000));
-        checkingDTO.setSecretKey("12345asd");
+        checkingDTO.setSecretKey("12345");
         StudentChecking studentChecking = new StudentChecking();
         String body = objectMapper.writeValueAsString(checkingDTO);
         MvcResult result =mockMvc.perform(
@@ -313,18 +313,18 @@ class AdminControllerTest {
 
 
     @Test
-    void create_above24() throws Exception {
+    void createAccountCheckingAbove24_basicAuthAdminAndBodyCheckingDTO_checkingAccount() throws Exception {
         AccountHolder accountHolder5 = new AccountHolder();
-        accountHolder5.setName("Samuel");
+        accountHolder5.setName("José");
         accountHolder5.setDateOfBirth(LocalDate.of(1993, 10, 27));
-        accountHolder5.setUsername("samucc");
+        accountHolder5.setUsername("jose12345");
         accountHolder5.setPassword("$2a$10$hr66If9xZyBdDWrSQeyLlORqrl7lSOaAOqKwb7ipcPoO/jlE7P6YO"); //password: 123456
-        accountHolder5.setPrimaryAddress(new Address("Calle Mercedes", "Madrid", "España", 28019));
+        accountHolder5.setPrimaryAddress(new Address("Calle Santander", "Madrid", "España", 28887));
         accountHolderRepository.save(accountHolder5);
         CheckingDTO checkingDTO = new CheckingDTO();
         checkingDTO.setIdPrimaryOwner(accountHolder5.getId());
         checkingDTO.setBalance(BigDecimal.valueOf(5000));
-        checkingDTO.setSecretKey("12345asd");
+        checkingDTO.setSecretKey("12345");
         StudentChecking studentChecking = new StudentChecking();
         String body = objectMapper.writeValueAsString(checkingDTO);
         MvcResult result =mockMvc.perform(
@@ -339,12 +339,12 @@ class AdminControllerTest {
 
 
     @Test
-    void createAccountHolder() throws Exception {
+    void createAccountHolder_basicAuthAdminAndBodyAccountHolderDTO_accountHolder() throws Exception {
 
-        String json = "{ \"name\": \"Pepa\", \"dateOfBirth\": \"2010-06-13\", \"username\": \"k\", \"password\": " +
-                "\"$2a$10$BE3p4yAl6JDeYhRuXmPUsOwFPn/2ZA8U7loYUoQ/.bk.OOgH10njW\", \"primaryAddress\": {\"street\": \"aa\", " +
+        String json = "{ \"name\": \"Pepa\", \"dateOfBirth\": \"2010-06-13\", \"username\": \"pepa12345\", \"password\": " +
+                "\"$2a$10$BE3p4yAl6JDeYhRuXmPUsOwFPn/2ZA8U7loYUoQ/.bk.OOgH10njW\", \"primaryAddress\": {\"street\": \"Calle luna\", " +
                 "\"city\": \"aa\", \"country\": \"aa\", \"zipCode\": \"11\" },\"mailingAddress\": {\"street\": \"aa\",\"city\": " +
-                "\"aa\",\"country\": \"aa\",\"zipCode\": \"11\" } }";
+                "\"Madrid\",\"country\": \"España\",\"zipCode\": \"28456\" } }";
 
         MvcResult result =mockMvc.perform(
                 post("/create/accountHolder")
@@ -356,7 +356,7 @@ class AdminControllerTest {
     }
 
     @Test
-    void createThirdParty() throws Exception {
+    void createThirdParty_basicAuthAdminAndBodyThirdPartyDTO_thirdParty() throws Exception {
         ThirdPartyDTO thirdPartyDTO = new ThirdPartyDTO();
         thirdPartyDTO.setName("Inditex");
 
@@ -371,7 +371,7 @@ class AdminControllerTest {
     }
 
     @Test
-    void updateStatus() throws Exception {
+    void updateStatus_basicAuthAdminAndBodyStatusDTO_void() throws Exception {
         List<Account> accounts = accountRepository.findAll();
         StatusDTO statusDTO = new StatusDTO();
         statusDTO.setStatus(Status.FROZEN);
@@ -384,7 +384,7 @@ class AdminControllerTest {
     }
 
     @Test
-    void updateBalance() throws Exception {
+    void updateBalance_basicAuthAdminAndBodyBalanceDTO_void() throws Exception {
         List<Account> accounts = accountRepository.findAll();
         BalanceDTO balanceDTO = new BalanceDTO();
         balanceDTO.setBalance(new Money(BigDecimal.valueOf(40000)));

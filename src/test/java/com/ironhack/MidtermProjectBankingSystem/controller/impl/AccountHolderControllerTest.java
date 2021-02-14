@@ -59,30 +59,30 @@ class AccountHolderControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
 
         AccountHolder accountHolder = new AccountHolder();
-        accountHolder.setName("Pepa");
+        accountHolder.setName("Elisa");
         accountHolder.setDateOfBirth(LocalDate.of(2020, 1, 8));
-        accountHolder.setUsername("pepa12345");
-        accountHolder.setPassword("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe");
-        accountHolder.setPrimaryAddress(new Address("Calle bla bla", "Ciudad", "País ...", 1234));
-        accountHolder.setMailingAddress(new Address("Avenida bla bla", "Ciudad ..", "País ...", 5678));
+        accountHolder.setUsername("elisa12345");
+        accountHolder.setPassword("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe"); //secretKey
+        accountHolder.setPrimaryAddress(new Address("Calle Mata", "Ciudad Real", "España", 13001));
+        accountHolder.setMailingAddress(new Address("Calle Mata", "Ciudad Real", "España", 13001));
         accountHolderRepository.save(accountHolder);
 
         AccountHolder accountHolder2 = new AccountHolder();
-        accountHolder2.setName("Pepe");
+        accountHolder2.setName("Juan");
         accountHolder2.setDateOfBirth(LocalDate.of(2020, 1, 8));
-        accountHolder2.setUsername("pepe12345");
-        accountHolder2.setPassword("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe");
-        accountHolder2.setPrimaryAddress(new Address("Calle bla bla", "Ciudad", "País ...", 1234));
-        accountHolder2.setMailingAddress(new Address("Avenida bla bla", "Ciudad ..", "País ...", 5678));
+        accountHolder2.setUsername("juan12345");
+        accountHolder2.setPassword("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe"); //secretKey
+        accountHolder2.setPrimaryAddress(new Address("Calle Toledo", "Madrid", "España", 28123));
+        accountHolder2.setMailingAddress(new Address("Calle Toledo", "Madrid", "España", 28123));
         accountHolderRepository.save(accountHolder2);
 
         AccountHolder accountHolder3 = new AccountHolder();
         accountHolder3.setName("Ricardo");
         accountHolder3.setDateOfBirth(LocalDate.of(2020, 1, 8));
-        accountHolder3.setUsername("ricardo");
-        accountHolder3.setPassword("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe");
-        accountHolder3.setPrimaryAddress(new Address("Calle bla bla", "Ciudad", "País ...", 1234));
-        accountHolder3.setMailingAddress(new Address("Avenida bla bla", "Ciudad ..", "País ...", 5678));
+        accountHolder3.setUsername("ricardo12345");
+        accountHolder3.setPassword("$2a$10$WIAZju1Ca/uLJBUkeVPUpOm00DV3EQZC8rKnJ86FlQAAkJd0.SjZe"); //secretKey
+        accountHolder3.setPrimaryAddress(new Address("Calle Ciudad Real", "Toledo", "España", 45012));
+        accountHolder3.setMailingAddress(new Address("Calle Ciudad Real", "Toledo", "España", 45012));
         accountHolderRepository.save(accountHolder3);
 
         Role role = new Role();
@@ -146,21 +146,21 @@ class AccountHolderControllerTest {
     }
 
     @Test
-    void findAccountsByAccountHolder() throws Exception {
+    void findAccountsByAccountHolder_basicAuthAccountHolder_accountsList() throws Exception {
         MvcResult result = mockMvc.perform(get("/accounts").with(SecurityMockMvcRequestPostProcessors.
-                httpBasic("ricardo", "secretKey"))).andReturn();
+                httpBasic("ricardo12345", "secretKey"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("246810"));
     }
 
     @Test
-    void findAccountsById() throws Exception {
+    void findAccountsById_basicAuthAccountHolderAndId_account() throws Exception {
         MvcResult result = mockMvc.perform(get("/account/" + accountRepository.findAll().get(0).getId()).with(SecurityMockMvcRequestPostProcessors.
-                httpBasic("ricardo", "secretKey"))).andReturn();
+                httpBasic("ricardo12345", "secretKey"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("1478"));
     }
 
     @Test
-    void transferMoney() throws Exception {
+    void transferMoney_basicAuthAccountHolderAndBodyTransactionDTO_transaction() throws Exception {
 
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setAmount(new Money(new BigDecimal("30")));
@@ -183,11 +183,8 @@ class AccountHolderControllerTest {
         assertTrue(result.getResponse().getContentAsString().contains("Gastos casa"));
     }
 
-
-
-
     @Test
-    void create_fraudChecker() throws Exception {
+    void fraudCheck_basicAuthAccountHolderAndBodyTransactionDTO_forbiddenExceptionAndFrozenAccount() throws Exception {
         List<Savings> savingss = savingsRepository.findAll();
         Savings originAccount = savingss.get(0);
         Savings destinationAccount = savingss.get(1);
@@ -195,7 +192,7 @@ class AccountHolderControllerTest {
         transactionDTO.setOrigenAccountId(originAccount.getId());
         transactionDTO.setDestinationAccountId(destinationAccount.getId());
         transactionDTO.setAmount(new Money(BigDecimal.valueOf(500)));
-        transactionDTO.setDescription("Blablabla");
+        transactionDTO.setDescription("Transacción 1");
         transactionDTO.setNameOwnerDestinationAccount(destinationAccount.getPrimaryOwner().getName());
         transactionDTO.setTransactionDate(new Date());
         String body = objectMapper.writeValueAsString(transactionDTO);
@@ -210,7 +207,7 @@ class AccountHolderControllerTest {
         transactionDTO2.setOrigenAccountId(originAccount.getId());
         transactionDTO2.setDestinationAccountId(destinationAccount.getId());
         transactionDTO2.setAmount(new Money(BigDecimal.valueOf(500)));
-        transactionDTO2.setDescription("Blablabla");
+        transactionDTO2.setDescription("Transacción 2");
         transactionDTO2.setNameOwnerDestinationAccount(destinationAccount.getPrimaryOwner().getName());
         transactionDTO2.setTransactionDate(new Date());
         String body2 = objectMapper.writeValueAsString(transactionDTO2);
@@ -225,7 +222,7 @@ class AccountHolderControllerTest {
         transactionDTO3.setOrigenAccountId(originAccount.getId());
         transactionDTO3.setDestinationAccountId(destinationAccount.getId());
         transactionDTO3.setAmount(new Money(BigDecimal.valueOf(500)));
-        transactionDTO3.setDescription("Blablabla");
+        transactionDTO3.setDescription("Transacción 3");
         transactionDTO3.setNameOwnerDestinationAccount(destinationAccount.getPrimaryOwner().getName());
         transactionDTO3.setTransactionDate(new Date());
         String body3 = objectMapper.writeValueAsString(transactionDTO3);

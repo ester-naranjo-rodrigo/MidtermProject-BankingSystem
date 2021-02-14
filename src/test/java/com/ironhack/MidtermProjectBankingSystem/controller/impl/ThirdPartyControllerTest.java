@@ -59,18 +59,18 @@ class ThirdPartyControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
 
         AccountHolder accountHolder = new AccountHolder();
-        accountHolder.setName("Javier");
+        accountHolder.setName("Elisa");
         accountHolder.setDateOfBirth(LocalDate.of(1994 , 11, 17));
-        accountHolder.setUsername("javigg");
+        accountHolder.setUsername("elisa12345");
         accountHolder.setPassword("$2a$10$hr66If9xZyBdDWrSQeyLlORqrl7lSOaAOqKwb7ipcPoO/jlE7P6YO"); //password: 123456
-        accountHolder.setPrimaryAddress(new Address("Calle Radio", "Madrid", "España", 20019));
+        accountHolder.setPrimaryAddress(new Address("Calle Valencia", "Madrid", "España", 28123));
         accountHolderRepository.save(accountHolder);
         AccountHolder accountHolder2 = new AccountHolder();
-        accountHolder2.setName("Andres");
+        accountHolder2.setName("Juan");
         accountHolder2.setDateOfBirth(LocalDate.of(1985, 10, 28));
-        accountHolder2.setUsername("andres123");
-        accountHolder2.setPassword("$2a$10$hr66If9xZyBdDWrSQeyLlORqrl7lSOaAOqKwb7ipcPoO");
-        accountHolder2.setPrimaryAddress(new Address("Calle Ruido", "Estepona", "Spain", 56225));
+        accountHolder2.setUsername("juan12345");
+        accountHolder2.setPassword("$2a$10$hr66If9xZyBdDWrSQeyLlORqrl7lSOaAOqKwb7ipcPoO"); //password: 123456
+        accountHolder2.setPrimaryAddress(new Address("Calle Toledo", "Madrid", "Spain", 28569));
         accountHolderRepository.save(accountHolder2);
         Admin admin = new Admin();
         admin.setName("Luis");
@@ -90,15 +90,15 @@ class ThirdPartyControllerTest {
         roleRepository.save(role);
         roleRepository.save(role3);
         Account account = new Account();
-        account.setBalance(new Money(new BigDecimal("5000")));
+        account.setBalance(new Money(new BigDecimal("5486")));
         account.setPrimaryOwner(accountHolder);
         accountRepository.save(account);
         Account account2 = new Account();
-        account2.setBalance(new Money(new BigDecimal("6000")));
+        account2.setBalance(new Money(new BigDecimal("10236")));
         account2.setPrimaryOwner(accountHolder);
         accountRepository.save(account2);
         Savings savings = new Savings();
-        savings.setBalance(new Money(BigDecimal.valueOf(4000)));
+        savings.setBalance(new Money(BigDecimal.valueOf(9874)));
         savings.setPrimaryOwner(accountHolder2);
         savings.setSecretKey("123456");
         savingsRepository.save(savings);
@@ -120,7 +120,7 @@ class ThirdPartyControllerTest {
     }
 
     @Test
-    void getAll() throws Exception {
+    void getAll_basicAdminAuth_thirdPartiesList() throws Exception {
         ThirdParty thirdParty = new ThirdParty();
         thirdParty.setName("Inditex");
         thirdParty.setHashedKey(4444);
@@ -131,14 +131,14 @@ class ThirdPartyControllerTest {
     }
 
     @Test
-    void getById() throws Exception {
+    void getById_basicAdminAuthAndId_thirdParty() throws Exception {
         MvcResult result = mockMvc.perform(get("/check/thirdParty/" + thirdPartyRepository.findAll().get(0).getId()).with(SecurityMockMvcRequestPostProcessors.
                 httpBasic("admin1", "0000"))).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("Alimentacion Pepe"));
     }
 
     @Test
-    void update_sendTransaction() throws Exception {
+    void sendTransaction_hashKeyAndBodyOperationThirdPartyDTO_void() throws Exception {
         List<Savings> savings = savingsRepository.findAll();
         List<ThirdParty> thirdParties = thirdPartyRepository.findAll();
         OperationThirdPartyDTO operationThirdPartyDTO = new OperationThirdPartyDTO();
@@ -154,7 +154,7 @@ class ThirdPartyControllerTest {
     }
 
     @Test
-    void update_receiveTransaction() throws Exception {
+    void receiveTransaction_hashKeyAndBodyOperationThirdPartyDTO_void() throws Exception {
         List<Savings> savings = savingsRepository.findAll();
         List<ThirdParty> thirdParties = thirdPartyRepository.findAll();
         OperationThirdPartyDTO operationThirdPartyDTO = new OperationThirdPartyDTO();
