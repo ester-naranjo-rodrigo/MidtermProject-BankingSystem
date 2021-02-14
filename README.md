@@ -2,7 +2,7 @@
 
 ## First steps
 
-- Create two databases: [midterm](src/main/resources/static/midterm.sql) and [midterm_test] (src/test/resources/static/midterm_test.sql)
+- Create two databases: [midterm](src/main/resources/static/midterm.sql) and [midterm_test](src/test/resources/static/midterm_test.sql)
 - Run mvn spring-bot:run
 
 ## API Routes
