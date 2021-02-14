@@ -1,5 +1,5 @@
 # Postman Tests
-The routes are based in tables created with src/main/resources/static/midterm.sql file.
+The routes are based in tables created with [midterm.sql](src/main/resources/static/midterm.sql) file.
 
 ## Get accounts of an account holder when is authenticated:
   - Method: GET
