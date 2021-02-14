@@ -4,6 +4,16 @@
 
 - The system must have 4 types of accounts: StudentChecking, Checking, Savings, and CreditCard
 
+  - Checking Accounts should have:
+  
+    - aa
+  
+  - Student Checking Accounts are identical to Checking Accounts except that they do NOT have:
+  
+  - Savings are identical to Checking accounts except that they:
+  
+  - CreditCard Accounts have:
+
 - The system must have 3 types of Users: Admins and AccountHolders
 
 - Admins can create new accounts. When creating a new account they can create Checking, Savings, or CreditCard Accounts
