@@ -183,8 +183,15 @@ The routes are based in tables created with src/main/resources/static/midterm.sq
         }
 }
 
-
-
+## Third Party Operation:
+  - Method: PATCH
+  - URL: http://localhost:8080/thirdPartyOperation?hashedKey=14
+  - Body: {
+    "amount":200,
+    "id":1,
+    "secretKey":"12345",
+    "transactionType": "RECEIVE"
+}
 
 
 
