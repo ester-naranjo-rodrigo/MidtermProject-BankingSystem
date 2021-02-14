@@ -162,25 +162,28 @@ The routes are based in tables created with src/main/resources/static/midterm.sq
         "nameOwnerDestinationAccount":"Eduardo" 
 }
 
+## Update status account by an Admin:
+  - Method: PATCH
+  - URL: http://localhost:8080/update/changeStatus/1
+  - Username: admin1
+  - Password: admin1
+  - Body: {
+    "status": "FROZEN"
+}
+
+## Update balance account by an Admin:
+  - Method: PATCH
+  - URL: http://localhost:8080/update/balance/2
+  - Username: admin1
+  - Password: admin1
+  - Body: {
+    "balance": {
+            "currency": "EUR",
+            "amount": 1800.00
+        }
+}
 
 
-
-
-
-
-
-
-
-
-
-
-## Create transaction by an Account Holder:
-  - Method: POST
-  - URL: http://localhost:8080/transaction
-  - Username: username1
-  - Password: password
-  - Body:
-  
 
 
 
