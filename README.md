@@ -4,6 +4,7 @@
 
 - Create two databases: [midterm](src/main/resources/static/midterm.sql) and [midterm_test](src/test/resources/static/midterm_test.sql)
 - Run mvn spring-bot:run
+- You can use this [examples](doc/postman.md) to run tests in postman
 
 ## API Routes
 
