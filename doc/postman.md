@@ -147,7 +147,9 @@ The routes are based in tables created with src/main/resources/static/midterm.sq
   - URL: http://localhost:8080/create/thirdParty
   - Username: admin1
   - Password: admin1
-  - Body:
+  - Body: {
+    "name": "Tienda alimentación"
+}
 
 ## Create transaction by an Account Holder:
   - Method: POST
