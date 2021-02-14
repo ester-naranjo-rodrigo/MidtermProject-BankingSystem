@@ -1,5 +1,12 @@
 # MidtermProject-BankingSystem
 
+## First steps
+
+- Create two databases: midterm and midterm_test
+- Run mvn spring-bot:run
+
+## API Routes
+
 | Method | Route                                      | Description                                             |
 |--------|--------------------------------------------|---------------------------------------------------------|
 | GET    | /accounts                                  | Return a list with all account holder's accounts        |
