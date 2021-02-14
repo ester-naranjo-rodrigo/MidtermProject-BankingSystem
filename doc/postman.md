@@ -78,6 +78,49 @@ The routes are based in tables created with src/main/resources/static/midterm.sq
   
   
   
+## Create savings account by an Admin:
+  - Method: POST
+  - URL: http://localhost:8080/create/savings
+  - Username: admin1
+  - Password: admin1
+  - Body:
+
+## Create credit card account by an Admin:
+  - Method: POST
+  - URL: http://localhost:8080/create/creditcard
+  - Username: admin1
+  - Password: admin1
+  - Body:
   
+## Create checking account by an Admin:
+  - Method: POST
+  - URL: http://localhost:8080/create/checking
+  - Username: admin1
+  - Password: admin1
+  - Body:
   
+## Create account holder by an Admin:
+  - Method: POST
+  - URL: http://localhost:8080/create/accountHolder
+  - Username: admin1
+  - Password: admin1
+  - Body:  
   
+## Create third party by an Admin:
+  - Method: POST
+  - URL: http://localhost:8080/create/thirdParty
+  - Username: admin1
+  - Password: admin1
+  - Body:
+
+## Create transaction by an Account Holder:
+  - Method: POST
+  - URL: http://localhost:8080/transaction
+  - Username: username1
+  - Password: password
+  - Body:
+  
+
+
+
+
