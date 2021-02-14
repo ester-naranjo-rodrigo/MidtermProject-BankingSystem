@@ -8,7 +8,11 @@
 
 - Admins can create new accounts. When creating a new account they can create Checking, Savings, or CreditCard Accounts
 
-- Interest and Fees should be applied appropriately
+- Interest and Fees should be applied appropriately:
+  
+  - The penaltyFee for all accounts should be 40. If any account drops below the minimumBalance, the penaltyFee should be deducted from the balance automatically
+  - Interest on savings accounts is added to the account annually at the rate of specified interestRate per year. When a savings Account balance is accessed, you must determine if it has been 1 year or more since the either the account was created or since interest was added to the account, and add the appropriate interest to the balance if necessary.
+  - Interest on credit cards is added to the balance monthly. When the balance of a credit card is accessed, check to determine if it has been 1 month or more since the account was created or since interested was added, and if so, add the appropriate interest to the balance.
 
 - Account Access:
 
