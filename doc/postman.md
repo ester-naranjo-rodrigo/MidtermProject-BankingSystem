@@ -83,7 +83,15 @@ The routes are based in tables created with src/main/resources/static/midterm.sq
   - URL: http://localhost:8080/create/savings
   - Username: admin1
   - Password: admin1
-  - Body:
+  - Body: 
+    {
+    "balance": 2000.00,
+    "idPrimaryOwner": 1,
+    "idSecondaryOwner": 2,
+    "secretKey": "5678",
+    "minimumBalance": 200.00,
+    "interestRate": 0.01
+    }
 
 ## Create credit card account by an Admin:
   - Method: POST
