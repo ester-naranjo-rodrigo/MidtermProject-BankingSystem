@@ -1,5 +1,29 @@
 # MidtermProject-BankingSystem
 
+## Requirements
+
+- The system must have 4 types of accounts: StudentChecking, Checking, Savings, and CreditCard
+
+- The system must have 3 types of Users: Admins and AccountHolders
+
+- Admins can create new accounts. When creating a new account they can create Checking, Savings, or CreditCard Accounts
+
+- Interest and Fees should be applied appropriately
+
+- Account Access:
+
+  - Admins should be able to access the balance for any account and to modify it
+  - AccountHolders should be able to access their own account balance
+  -Account holders should be able to transfer money from any of their accounts to any other account (regardless of owner). The transfer should only be processed if the account has sufficient funds. The user must provide the Primary or Secondary owner name and the id of the account that should receive the transfer.
+  - There must be a way for third party users to receive and send money to other accounts.
+Third party users must be added to the database by an admin.
+In order to receive and send money Third Party Users must provide their hashed key in the header of the HTTP request. They also must provide the amount, the Account id and the account secret key.
+
+- Fraud Detection: the application must recognise patterns that indicate fraud and Freeze the account status when potential fraud is detected. Patterns that indicate fraud include:
+  - Transactions made in 24 hours that total to more than 150% of the customers highest daily total transactions in any other 24 hour period.
+  - More than 2 transactions occurring on a single account within a 1 second period.
+
+
 ## First steps
 
 - Create two databases: [midterm](src/main/resources/static/midterm.sql) and [midterm_test](src/test/resources/static/midterm_test.sql)
