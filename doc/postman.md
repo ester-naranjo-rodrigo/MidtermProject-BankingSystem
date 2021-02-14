@@ -123,7 +123,24 @@ The routes are based in tables created with src/main/resources/static/midterm.sq
   - URL: http://localhost:8080/create/accountHolder
   - Username: admin1
   - Password: admin1
-  - Body:  
+  - Body: {
+    "name": "Francisca",
+    "dateOfBirth": "1963-06-13",
+    "username": "paqui123",
+    "password": "$2a$10$BE3p4yAl6JDeYhRuXmPUsOwFPn/2ZA8U7loYUoQ/.bk.OOgH10njW",
+    "primaryAddress": {
+        "street": "Calle Toledo",
+        "city": "Madrid",
+        "country": "España",
+        "zipCode": 28123
+    },
+    "mailingAddress": {
+        "street": "Calle Toledo",
+        "city": "Madrid",
+        "country": "España",
+        "zipCode": 28123
+    }
+} 
   
 ## Create third party by an Admin:
   - Method: POST
