@@ -98,7 +98,12 @@ The routes are based in tables created with src/main/resources/static/midterm.sq
   - URL: http://localhost:8080/create/creditcard
   - Username: admin1
   - Password: admin1
-  - Body:
+  - Body: 
+    {
+    "balance": 4000.00,
+    "idPrimaryOwner": 1,
+    "idSecondaryOwner": 2
+     }
   
 ## Create checking account by an Admin:
   - Method: POST
