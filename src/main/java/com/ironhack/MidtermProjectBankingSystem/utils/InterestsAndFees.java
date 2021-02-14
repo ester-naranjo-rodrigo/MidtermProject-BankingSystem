@@ -17,7 +17,7 @@ public class InterestsAndFees {
         Integer monthsSinceCreation = Period.between(LocalDate.now(), creditCard.getDateOfCreation()).getMonths();
         Integer monthsSinceLastAccess = Period.between(LocalDate.now(), creditCard.getDateOfLastAccess()).getMonths();
 
-        BigDecimal interestPerMonth = (creditCard.getInterestRate().divide(new BigDecimal(12)));
+        BigDecimal interestPerMonth = (creditCard.getInterestRate().divide(new BigDecimal(12), 2, RoundingMode.HALF_UP));
         Integer numberMonths = monthsSinceCreation - monthsSinceLastAccess;
         BigDecimal totalInterest = (interestPerMonth.multiply(new BigDecimal(numberMonths))).add(new BigDecimal(1));
 
