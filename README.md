@@ -31,3 +31,10 @@
 | PATCH  | /update/changeStatus/{id}                  | Update the status of an account                         |
 | PATCH  | /update/balance/{id}                       | Update the balance of an account                        |
 | PATCH  | /thirdPartyOperation?hashedKey={hashedKey} | Make a third party operation and update balance account |
+
+## Tools
+
+- Intellij 
+- Spring Boot
+- MySQL
+- Postman
